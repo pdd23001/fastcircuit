@@ -1,7 +1,7 @@
 # Publishing a GitHub release for a tag vX.Y.Z publishes fastcircuit X.Y.Z to PyPI:
 # check the release, build and smoke-test the distributions (package.yml, as in CI),
 # upload them to PyPI with trusted publishing (no API token is stored anywhere), then
-# attach the same files to the GitHub release. docs/releasing.md has the checklist.
+# attach the same files to the GitHub release.
 name: Release
 
 on:

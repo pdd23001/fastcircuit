@@ -1,6 +1,6 @@
 """Typed IR -> LLVM IR (via llvmlite) for in-process compilation.
 
-The default backend (docs/architecture.md). Semantics match the C backend exactly: Python
+The default backend (ARCHITECTURE.md). Semantics match the C backend exactly: Python
 evaluation order, checked int64 arithmetic (LLVM overflow intrinsics), Python ``//``
 and ``%`` signs (CPython's float_rem / float_floor_div), exact int/int ``/`` within
 +-2**53, exact mixed int/float comparison, CPython's ``math_1`` error rules (libm is

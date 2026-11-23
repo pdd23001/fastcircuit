@@ -10,8 +10,10 @@
 - [Compatibility policy](compatibility.md): supported Qiskit, Python and
   dependency versions, and API stability
 
+- [Changelog](../CHANGELOG.md): what changed in each release
+
 **Contributing**
-- [Contributing guide](../CONTRIBUTING.md)
-- [Architecture](architecture.md): the compiler pipeline, backends and invariants
-- [Continuous integration](ci.md): what CI checks and how to reproduce it locally
-- [Releasing](releasing.md): the maintainer's release checklist
+- [Contributing guide](../CONTRIBUTING.md): setting up, running the checks,
+  opening a pull request
+- [Architecture](../ARCHITECTURE.md): the compiler pipeline, backends and
+  invariants

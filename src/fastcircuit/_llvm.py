@@ -1,4 +1,4 @@
-"""In-process native compilation with llvmlite: the default backend (docs/architecture.md).
+"""In-process native compilation with llvmlite: the default backend (ARCHITECTURE.md).
 
 Generated LLVM IR is optimised (O2) and turned into an object file in this process,
 so no C compiler or Python headers are needed. Object files go into the persistent

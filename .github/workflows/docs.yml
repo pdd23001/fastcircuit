@@ -9,6 +9,7 @@ on:
     paths:
       - docs/**
       - mkdocs.yml
+      - CHANGELOG.md
       - ci/constraints.txt
       - .github/workflows/docs.yml
   workflow_dispatch:

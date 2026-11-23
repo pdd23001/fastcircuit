@@ -107,7 +107,7 @@ source = ["src/fastcircuit", "*/site-packages/fastcircuit"]
 [tool.coverage.report]
 # Baseline (2026-11-15): 93% branch coverage, both backends combined, macOS arm64,
 # Python 3.14. The 3-point margin absorbs platform/Python-version branches; raise it
-# as coverage grows, never lower it to make a change pass (docs/ci.md).
+# as coverage grows, never lower it to make a change pass.
 fail_under = 90
 show_missing = true
 skip_covered = false

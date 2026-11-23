@@ -24,8 +24,7 @@ pip installs llvmlite only where llvmlite publishes wheels (markers in
 | Linux aarch64, glibc 2.28+ | 3.11+ | LLVM (llvmlite 0.50) | no | weekly |
 | Linux ppc64le / s390x | 3.11+ | C | yes | not tested in CI (no hosted runners) |
 
-Every platform in CI also runs the full suite on the C backend. [CI](ci.md) lists
-the jobs.
+Every platform in CI also runs the full suite on the C backend.
 
 Not supported:
 - **Python 3.10 and older:** Python 3.10 reached end-of-life in October 2026.

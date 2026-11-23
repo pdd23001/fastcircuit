@@ -208,7 +208,7 @@ outside 64 bits raises `OverflowError`. The full list is in
   exactly what compiled code may contain
 - [Platforms](https://github.com/pdd23001/fastcircuit/blob/main/docs/platforms.md):
   operating systems, CPUs, Python versions, and which backend each uses
-- [Architecture](https://github.com/pdd23001/fastcircuit/blob/main/docs/architecture.md):
+- [Architecture](https://github.com/pdd23001/fastcircuit/blob/main/ARCHITECTURE.md):
   how the compiler works, for contributors
 
 ---

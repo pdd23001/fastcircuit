@@ -20,12 +20,9 @@ nav:
   - Supported syntax: supported-syntax.md
   - Platforms: platforms.md
   - Compatibility: compatibility.md
-  - Development:
-      - Architecture: architecture.md
-      - Continuous integration: ci.md
-      - Releasing: releasing.md
-      - Contributing: https://github.com/pdd23001/fastcircuit/blob/main/CONTRIBUTING.md
-  - Changelog: https://github.com/pdd23001/fastcircuit/blob/main/CHANGELOG.md
+  - Changelog: changelog.md
+  # Development docs (CONTRIBUTING.md, ARCHITECTURE.md) live on GitHub only.
+  - Want to contribute?: https://github.com/pdd23001/fastcircuit/blob/main/CONTRIBUTING.md
 
 theme:
   name: material
@@ -107,6 +104,10 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
+  # docs/changelog.md includes the repository's CHANGELOG.md
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid

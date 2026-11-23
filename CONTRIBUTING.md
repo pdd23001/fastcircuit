@@ -144,7 +144,7 @@ to the compiler is compared against the same code run as plain Python (the
 `as_block` helper in `tests/support/blocks.py` gives you both) and runs on both
 backends.
 
-**3. Read [docs/architecture.md](docs/architecture.md) before changing the
+**3. Read [ARCHITECTURE.md](ARCHITECTURE.md) before changing the
 compiler.** Its invariants (identical results to Python, no silent fallback,
 validated inputs) are not negotiable.
 
@@ -179,7 +179,8 @@ Before marking a pull request ready for review, check that:
 
 1. **The tests pass locally:** You ran `tox` (lint and both backends), and it
    passed. CI runs the same checks on Linux and macOS and several Python
-   versions; the required check is `ci-ok` ([docs/ci.md](docs/ci.md)).
+   versions; the required check is `ci-ok`, which passes only when every other
+   check does.
 2. **New behaviour has tests**, and bug fixes have a test that failed before
    the fix.
 3. **No test was weakened**, the coverage floor was not lowered, and no

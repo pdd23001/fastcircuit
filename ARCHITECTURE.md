@@ -124,7 +124,7 @@ Changes must keep these. Most have dedicated tests.
    counts.
 2. The component tests compare every gate in the table against the Python
    method, instruction for instruction. Run them on both backends.
-3. Update the gate list in [supported-syntax.md](supported-syntax.md).
+3. Update the gate list in [supported-syntax.md](docs/supported-syntax.md).
 
 ## Adding syntax
 
@@ -134,4 +134,4 @@ Changes must keep these. Most have dedicated tests.
    differential test against Python in `tests/component/test_features.py`, and a
    case to `tests/support/programs.py` (compiled with warnings as errors and under
    the sanitizers).
-4. Document it in [supported-syntax.md](supported-syntax.md).
+4. Document it in [supported-syntax.md](docs/supported-syntax.md).

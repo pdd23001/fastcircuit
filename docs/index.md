@@ -185,5 +185,6 @@ lists the few setups that need a C compiler.
   <li><a href="supported-syntax/"><strong>Supported syntax</strong><span>Statements, types, gates, math and NumPy functions</span></a></li>
   <li><a href="platforms/"><strong>Platforms</strong><span>Operating systems, CPUs, Python versions and backends</span></a></li>
   <li><a href="compatibility/"><strong>Compatibility</strong><span>Supported Qiskit versions and API stability</span></a></li>
-  <li><a href="architecture/"><strong>Architecture</strong><span>How the compiler works, for contributors</span></a></li>
+  <li><a href="changelog/"><strong>Changelog</strong><span>What changed in each release</span></a></li>
+  <li><a href="https://github.com/pdd23001/fastcircuit/blob/main/CONTRIBUTING.md"><strong>Want to contribute?</strong><span>The contributing guide on GitHub</span></a></li>
 </ul>

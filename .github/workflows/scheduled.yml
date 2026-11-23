@@ -1,6 +1,6 @@
 # Weekly and on demand: every supported platform and Python, sanitizers, and an
 # advisory run against newer Qiskit. Not a required check; failures open no PR but
-# must be triaged (docs/ci.md).
+# must be triaged.
 name: Scheduled
 
 on:

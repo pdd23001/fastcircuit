@@ -1,5 +1,5 @@
 # Pull requests and pushes to main: lint, tests on both backends, coverage, package.
-# Branch protection should require the single aggregate check "ci-ok" (docs/ci.md).
+# Branch protection requires the single aggregate check "ci-ok".
 name: CI
 
 on:
