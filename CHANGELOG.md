@@ -7,7 +7,7 @@ All notable changes to fastcircuit are listed here. The format follows
 
 ## [Unreleased]
 
-First public release, planned as `0.2.0a1`. Nothing has been published yet.
+First public release, planned as `0.1.0`. Nothing has been published yet.
 
 ### Added
 - `with fastcircuit:` compiles a block of Qiskit code, written in a typed subset
