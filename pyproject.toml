@@ -42,7 +42,7 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/pdd23001/fastcircuit"
-Documentation = "https://github.com/pdd23001/fastcircuit/tree/main/docs"
+Documentation = "https://pdd23001.github.io/fastcircuit/"
 Source = "https://github.com/pdd23001/fastcircuit"
 Issues = "https://github.com/pdd23001/fastcircuit/issues"
 Changelog = "https://github.com/pdd23001/fastcircuit/blob/main/CHANGELOG.md"

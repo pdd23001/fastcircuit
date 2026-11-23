@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://github.com/pdd23001/fastcircuit/raw/main/docs/assets/logo.svg" width="88" alt="fastcircuit logo">
+<img src="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/logo.svg" width="88" alt="fastcircuit logo">
 
 # fastcircuit
 
@@ -20,9 +20,9 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/pdd23001/fastcircuit/raw/main/docs/assets/benchmark-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/pdd23001/fastcircuit/raw/main/docs/assets/benchmark-light.svg">
-    <img alt="Bar chart: adding 996,866 gates takes 1.52 seconds in plain Python and 15.1 milliseconds with fastcircuit." src="https://github.com/pdd23001/fastcircuit/raw/main/docs/assets/benchmark-light.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/benchmark-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/benchmark-light.svg">
+    <img alt="Bar chart: adding 996,866 gates takes 1.52 seconds in plain Python and 15.1 milliseconds with fastcircuit." src="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/benchmark-light.svg">
   </picture>
 </p>
 
@@ -182,7 +182,7 @@ print(ghz(5))
 Run it with plain `python`, import it from other modules, or use it in Jupyter,
 with your imports in any order. In a script that contains blocks, only imports
 and literal assignments may run before fastcircuit is first imported. The
-[user guide](https://github.com/pdd23001/fastcircuit/blob/main/docs/guide.md#compile-a-block)
+[user guide](https://pdd23001.github.io/fastcircuit/guide/#compile-a-block)
 has the details.
 
 ---
@@ -201,18 +201,18 @@ More of Qiskit is planned, starting with `Parameter` support.
 Results match Python exactly, exceptions included: the same exception types, with
 the line number in your code. The one difference is that an integer result
 outside 64 bits raises `OverflowError`. The full list is in
-[Supported syntax](https://github.com/pdd23001/fastcircuit/blob/main/docs/supported-syntax.md).
+[Supported syntax](https://pdd23001.github.io/fastcircuit/supported-syntax/).
 
 ---
 
 ## Documentation
 
-- [User guide](https://github.com/pdd23001/fastcircuit/blob/main/docs/guide.md):
+- [User guide](https://pdd23001.github.io/fastcircuit/guide/):
   where blocks work, errors, the cache, environment variables,
   troubleshooting
-- [Supported syntax](https://github.com/pdd23001/fastcircuit/blob/main/docs/supported-syntax.md):
+- [Supported syntax](https://pdd23001.github.io/fastcircuit/supported-syntax/):
   exactly what compiled code may contain
-- [Platforms](https://github.com/pdd23001/fastcircuit/blob/main/docs/platforms.md):
+- [Platforms](https://pdd23001.github.io/fastcircuit/platforms/):
   operating systems, CPUs, Python versions, and which backend each uses
 - [Architecture](https://github.com/pdd23001/fastcircuit/blob/main/ARCHITECTURE.md):
   how the compiler works, for contributors
@@ -225,7 +225,7 @@ fastcircuit follows [semantic versioning](https://semver.org/). Before 1.0, a
 minor release may change the API; every change is listed in the changelog.
 Qiskit's C API is still experimental, so each fastcircuit release supports one
 Qiskit minor series and refuses others with a clear error. Details are in the
-[compatibility policy](https://github.com/pdd23001/fastcircuit/blob/main/docs/compatibility.md).
+[compatibility policy](https://pdd23001.github.io/fastcircuit/compatibility/).
 
 ---
 
