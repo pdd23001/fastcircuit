@@ -17,8 +17,9 @@ concurrency:
 
 jobs:
   verify:
-    # Refuses to publish unless the tag names the version in the source, the GitHub
-    # pre-release flag matches the version, and the commit is on main with ci-ok green.
+    # Refuses to publish unless the tag names the version in the source, CHANGELOG.md
+    # has a section for it, the GitHub pre-release flag matches the version, and the
+    # commit is on main with ci-ok green.
     name: verify
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -29,7 +30,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Check the tag, version, pre-release flag and CI status
+      - name: Check the tag, version, changelog, pre-release flag and CI status
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
@@ -40,6 +41,11 @@ jobs:
           version=$(sed -n 's/^__version__ = "\(.*\)"$/\1/p' src/fastcircuit/_version.py)
           if [ "$TAG" != "v$version" ]; then
             echo "::error::tag $TAG does not match __version__ = \"$version\"; expected v$version"
+            exit 1
+          fi
+          escaped=${version//./\\.}
+          if ! grep -q "^## \\[$escaped\\]" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no '## [$version]' section; move the Unreleased entries under it first"
             exit 1
           fi
           case "$version" in
