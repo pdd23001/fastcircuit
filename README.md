@@ -6,7 +6,6 @@
 [![Python](https://img.shields.io/pypi/pyversions/fastcircuit?label=Python&logo=python)](https://pypi.org/project/fastcircuit/)
 [![Qiskit](https://img.shields.io/badge/Qiskit-2.6-6133BD?logo=Qiskit)](https://github.com/Qiskit/qiskit)
 ![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS-informational)
-[![CI](https://github.com/pdd23001/fastcircuit/actions/workflows/ci.yml/badge.svg)](https://github.com/pdd23001/fastcircuit/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/pdd23001/fastcircuit/blob/main/LICENSE.txt)
 
 Wrap your Qiskit code in `with fastcircuit:`. That is the only change.
