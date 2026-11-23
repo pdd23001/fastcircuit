@@ -1,6 +1,6 @@
 """Shared pytest configuration.
 
-Layers live in directories (unit/, component/, integration/, property/, e2e/) and
+Layers live in directories (unit/, component/, integration/, property/) and
 are marked automatically, so ``pytest tests/unit`` and ``pytest -m unit`` agree.
 Every session uses a private persistent-cache directory unless
 FASTCIRCUIT_CACHE_DIR is already set (CI points it at an artifact directory).
@@ -15,7 +15,7 @@ from pathlib import Path
 
 import pytest
 
-_LAYERS = ("unit", "component", "integration", "property", "e2e")
+_LAYERS = ("unit", "component", "integration", "property")
 
 if "FASTCIRCUIT_CACHE_DIR" not in os.environ:
     os.environ["FASTCIRCUIT_CACHE_DIR"] = tempfile.mkdtemp(prefix="fastcircuit-test-cache-")

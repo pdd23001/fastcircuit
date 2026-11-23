@@ -52,10 +52,15 @@ def same_outcome(fn, *args):
     """Run Python and native builders; return (circuit, error) of each.
 
     Both runs must issue the same warnings (NumPy's RuntimeWarnings), from the
-    same source line.
+    same source line, except those Python issues after native code stopped at
+    the int64 restriction.
     """
     expected, expected_error, expected_warnings = _run(fn.python, args)
     actual, actual_error, actual_warnings = _run(fn, args)
+    if is_int64_restriction(actual_error):
+        # Native code stopped early (the documented int64 restriction); Python went
+        # on and may warn later. Up to that point the warnings must agree.
+        expected_warnings = expected_warnings[: len(actual_warnings)]
     assert actual_warnings == expected_warnings, (actual_warnings, expected_warnings)
     return expected, expected_error, actual, actual_error
 

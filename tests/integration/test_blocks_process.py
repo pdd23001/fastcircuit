@@ -249,3 +249,24 @@ def test_blocks_in_an_imported_module_work_under_plain_python(tmp_path, main):
     result = run(["main.py"], tmp_path, tmp_path / "cache")
     assert result.returncode == 0, result.stderr
     assert result.stdout.strip() == "4"
+
+
+LATIN1_SCRIPT = """\
+# -*- coding: latin-1 -*-
+from qiskit import QuantumCircuit
+import fastcircuit
+
+qc = QuantumCircuit(2)
+with fastcircuit:
+    for i in range(2):
+        qc.h(i)
+print("caf\xe9", qc.count_ops()["h"])
+"""
+
+
+@pytest.mark.parametrize("launch", [[], ["-m", "fastcircuit", "run"]], ids=["python", "launcher"])
+def test_script_with_a_coding_declaration_is_decoded_like_python(tmp_path, launch):
+    (tmp_path / "app.py").write_bytes(LATIN1_SCRIPT.encode("latin-1"))
+    result = run([*launch, "app.py"], tmp_path, tmp_path / "cache")
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip() == "caf\xe9 2"

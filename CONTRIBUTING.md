@@ -122,6 +122,7 @@ Tests are layered. Add yours to the layer that matches what it checks:
 | `tests/unit` | `unit` | Analysis, rewriting, cache keys, numerics and platform rules. No native compilation; runs in about a second |
 | `tests/component` | `component` | Each part compiled and run against real Qiskit: gates, language features, blocks, runtime errors, cache, build failures |
 | `tests/integration` | `integration` | Everything together, including separate processes: scripts with blocks, cross-process cache reuse |
+| `tests/property` | `property` | Randomized differential tests: a fixed, seeded set of generated programs, run as a block and as plain Python on arguments Hypothesis chooses |
 
 Further markers: `slow` (left out with `-m "not slow"`), `needs_c_backend`
 (needs a C compiler), and `needs_llvmlite` (skipped automatically without

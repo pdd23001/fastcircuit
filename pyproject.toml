@@ -85,7 +85,6 @@ markers = [
     "unit: fast tests without native compilation",
     "component: compiles and loads generated extensions against real Qiskit",
     "integration: blocks + compiler + cache + Qiskit together",
-    "e2e: builds and installs distributions into clean environments",
     "property: randomized differential tests (seeded)",
     "slow: excluded from the default pull-request run",
     "needs_c_backend: uses the C compiler backend (deselect where no C compiler runs)",

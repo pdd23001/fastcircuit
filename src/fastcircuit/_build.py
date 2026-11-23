@@ -96,7 +96,13 @@ def _headers_digest(root: str) -> str:
 def find_toolchain() -> Toolchain:
     env = os.environ.get("CC")
     if env:
-        argv = tuple(shlex.split(env))
+        try:
+            argv = tuple(shlex.split(env))
+        except ValueError as exc:  # e.g. an unbalanced quote
+            raise CompilerNotFoundError(
+                f"cannot read CC={env!r} ({exc}). Set CC to a compiler path, optionally "
+                "followed by flags, quoted as in a shell."
+            ) from None
         source = "$CC"
     else:
         configured = shlex.split(sysconfig.get_config_var("CC") or "")
@@ -106,9 +112,9 @@ def find_toolchain() -> Toolchain:
     if not path:
         raise CompilerNotFoundError(
             f"no C compiler found (looked for {argv[0] if argv else '<empty>'!r} via {source}). "
-            "fastcircuit compiles functions at first call and needs a C11 compiler plus "
-            "Python development headers. Install one (Debian/Ubuntu: 'apt install gcc "
-            "python3-dev'; Fedora: 'dnf install gcc python3-devel'; macOS: "
+            "The C backend compiles each 'with fastcircuit:' block on its first run and needs "
+            "a C11 compiler plus Python development headers. Install one (Debian/Ubuntu: "
+            "'apt install gcc python3-dev'; Fedora: 'dnf install gcc python3-devel'; macOS: "
             "'xcode-select --install') or set CC to a compiler path. Run "
             "'python -m fastcircuit doctor' to check the setup."
         )

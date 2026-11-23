@@ -9,6 +9,8 @@ authors:
   - given-names: Parth
     family-names: Danve
 repository-code: "https://github.com/pdd23001/fastcircuit"
+version: "0.1.0"
+date-released: "2026-11-23"
 license: Apache-2.0
 keywords:
   - qiskit

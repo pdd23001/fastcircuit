@@ -69,7 +69,7 @@ jobs:
       - name: Unit, component and integration tests
         env:
           FASTCIRCUIT_CACHE_DIR: ${{ runner.temp }}/fastcircuit-cache
-        run: python -m coverage run -m pytest tests/unit tests/component tests/integration
+        run: python -m coverage run -m pytest tests/unit tests/component tests/integration tests/property
       - name: Upload coverage data
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:

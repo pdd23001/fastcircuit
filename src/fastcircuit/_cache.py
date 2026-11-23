@@ -94,7 +94,13 @@ def _sha256_file(path: Path) -> str:
 
 def ensure_private_dir(path: Path) -> Path:
     """Create ``path`` (0700) and refuse directories other users could write."""
-    path.mkdir(parents=True, exist_ok=True, mode=0o700)
+    try:
+        path.mkdir(parents=True, exist_ok=True, mode=0o700)
+    except OSError as exc:
+        raise CacheError(
+            f"cannot create cache directory {path} ({exc.strerror}). Set "
+            "FASTCIRCUIT_CACHE_DIR to a directory you can write, or FASTCIRCUIT_NO_CACHE=1."
+        ) from None
     st = path.stat()
     if st.st_uid != os.getuid():
         raise CacheError(

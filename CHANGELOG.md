@@ -33,5 +33,5 @@ First public release.
 - Results identical to the same code run as Python, including exception types
   and source lines. Checked 64-bit integer arithmetic.
 - Persistent, process-safe compilation cache, and `python -m fastcircuit cache`.
-- `python -m fastcircuit doctor` environment check.
+- `python -m fastcircuit doctor` environment check, and `--version`.
 - Support for Linux and macOS, CPython 3.11–3.14, Qiskit 2.6.x.

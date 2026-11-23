@@ -29,6 +29,7 @@ import builtins
 import functools
 import importlib.abc
 import importlib.machinery
+import importlib.util
 import sys
 import sysconfig
 import types
@@ -59,6 +60,11 @@ def rewrite_source(
     if not result.blocks:
         return None
     return compile(result.tree, filename, "exec", dont_inherit=True), result.functions
+
+
+def read_source(filename: str) -> str:
+    """A source file's text, decoded as Python decodes it (``# -*- coding: ... -*-``)."""
+    return importlib.util.decode_source(Path(filename).read_bytes())
 
 
 # -- 1. import hook -----------------------------------------------------------
@@ -185,8 +191,8 @@ def patch_module(namespace: dict[str, Any], filename: str) -> int:
     matches the file on disk are left alone; their blocks raise when reached.
     """
     try:
-        source = Path(filename).read_text(encoding="utf-8")
-    except (OSError, UnicodeDecodeError):
+        source = read_source(filename)
+    except (OSError, UnicodeDecodeError, SyntaxError):
         return 0
     rewritten = rewrite_source(source, filename)
     if rewritten is None:
@@ -313,7 +319,7 @@ def _rerun_plan(frames: list[types.FrameType]) -> list[_Step] | None:
     for frame in frames:
         filename = frame.f_code.co_filename
         try:
-            source = Path(filename).read_text(encoding="utf-8")
+            source = read_source(filename)
             tree = ast.parse(source, filename)
             original = compile(tree, filename, "exec", dont_inherit=True)
         except (OSError, UnicodeDecodeError, SyntaxError):
@@ -483,7 +489,7 @@ def activate() -> None:
 def run_script(path: str, argv: list[str]) -> None:
     """``python -m fastcircuit run script.py args...``: rewrite the script, then run it."""
     activate()
-    source = Path(path).read_text(encoding="utf-8")
+    source = read_source(path)
     filename = str(Path(path).resolve())
     rewritten = rewrite_source(source, filename)
     code = (

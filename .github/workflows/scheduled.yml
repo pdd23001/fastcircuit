@@ -51,7 +51,7 @@ jobs:
       - name: Tests
         env:
           FASTCIRCUIT_CACHE_DIR: ${{ runner.temp }}/fastcircuit-cache
-        run: python -m pytest tests/unit tests/component tests/integration
+        run: python -m pytest tests/unit tests/component tests/integration tests/property
 
   sanitizers:
     # Instruments only the C backend's generated code. CPython, NumPy, llvmlite and
@@ -83,7 +83,7 @@ jobs:
           FASTCIRCUIT_EXTRA_CFLAGS: -fsanitize=undefined -fno-sanitize-recover=undefined -fno-omit-frame-pointer
           UBSAN_OPTIONS: print_stacktrace=1:halt_on_error=1
           FASTCIRCUIT_CACHE_DIR: ${{ runner.temp }}/fastcircuit-cache
-        run: python -m pytest tests/component tests/integration -m "not slow"
+        run: python -m pytest tests/component tests/integration tests/property -m "not slow"
       - name: Tests under AddressSanitizer
         if: matrix.sanitizer == 'asan'
         env:
@@ -93,7 +93,7 @@ jobs:
         run: |
           # The interpreter is not built with ASan, so the runtime must be preloaded
           # before Python starts for the instrumented extensions to load.
-          LD_PRELOAD="$(gcc -print-file-name=libasan.so)" python -m pytest tests/component tests/integration -m "not slow"
+          LD_PRELOAD="$(gcc -print-file-name=libasan.so)" python -m pytest tests/component tests/integration tests/property -m "not slow"
 
   qiskit-advisory:
     # Early warning for the next Qiskit minor release (the C API is experimental).
@@ -121,4 +121,4 @@ jobs:
       - name: Tests
         env:
           FASTCIRCUIT_CACHE_DIR: ${{ runner.temp }}/fastcircuit-cache
-        run: python -m pytest tests/unit tests/component tests/integration
+        run: python -m pytest tests/unit tests/component tests/integration tests/property

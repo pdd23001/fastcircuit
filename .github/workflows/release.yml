@@ -18,8 +18,8 @@ concurrency:
 jobs:
   verify:
     # Refuses to publish unless the tag names the version in the source, CHANGELOG.md
-    # has a section for it, the GitHub pre-release flag matches the version, and the
-    # commit is on main with ci-ok green.
+    # has a section for it, CITATION.cff names it, the GitHub pre-release flag matches
+    # the version, and the commit is on main with ci-ok green.
     name: verify
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -46,6 +46,10 @@ jobs:
           escaped=${version//./\\.}
           if ! grep -q "^## v$escaped$" CHANGELOG.md; then
             echo "::error::CHANGELOG.md has no '## v$version' section; add it before releasing"
+            exit 1
+          fi
+          if ! grep -q "^version: \"$escaped\"$" CITATION.cff; then
+            echo "::error::CITATION.cff must say version: \"$version\" (and the release date)"
             exit 1
           fi
           case "$version" in
