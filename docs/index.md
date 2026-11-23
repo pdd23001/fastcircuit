@@ -12,8 +12,8 @@ hide:
 
 # Write Python. Run your Qiskit code at native speed.
 
-<p class="fc-lead">Add one line, <code>with fastcircuit:</code>, and the code inside it
-compiles to machine code. Up to 100× faster, with identical results.</p>
+<p class="fc-lead">Python is easy to write and slow to run. Add one line,
+<code>with fastcircuit:</code>, and your Qiskit code runs as machine code instead.</p>
 
 <p class="fc-actions" markdown>
 [Get started](guide.md){ .md-button .md-button--primary }
@@ -44,6 +44,19 @@ def layered(n, layers, theta):
 </div>
 
 </div>
+
+## Python is the bottleneck
+
+<div class="fc-stats" markdown>
+<div class="fc-stat"><strong>1.52 s</strong><span>to add 996,866 gates from a plain Python loop</span></div>
+<div class="fc-stat fc-stat--fast"><strong>15 ms</strong><span>to add the same gates with <code>with fastcircuit:</code></span></div>
+</div>
+
+Almost all of that time goes to the Python interpreter, not to adding the gates.
+Qiskit's core is written in Rust for exactly this reason, and its C API lets
+compiled programs use Qiskit at native speed. But to use it, you have to leave
+Python. fastcircuit closes the gap: the Python you already write is compiled to machine code that calls the C API
+directly.
 
 ## Why fastcircuit
 

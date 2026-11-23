@@ -8,10 +8,18 @@
 ![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS-informational)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/pdd23001/fastcircuit/blob/main/LICENSE.txt)
 
-Add one line, `with fastcircuit:`, and the Qiskit code inside it is compiled to
-machine code that talks to Qiskit directly through its
-[C API](https://quantum.cloud.ibm.com/docs/api/qiskit-c). You keep writing
-ordinary Python. It runs up to 100× faster, with exactly the same results.
+**Python is easy to write and slow to run.** A Python loop that adds a million
+gates to a circuit takes 1.5 seconds, and almost all of that time goes to the
+Python interpreter, not to adding the gates: the same gates added from native
+code take 15 milliseconds. Qiskit's core is written in Rust for exactly this
+reason, and its [C API](https://quantum.cloud.ibm.com/docs/api/qiskit-c) lets
+compiled programs use Qiskit at native speed. But to use it, you have to leave
+Python.
+
+**fastcircuit gives you that speed without leaving Python.** Add one line,
+`with fastcircuit:`, and the code inside it is compiled to machine code that
+calls Qiskit's C API directly. You keep writing ordinary Python. It runs up to
+100× faster, with exactly the same results.
 
 ```python
 from qiskit import QuantumCircuit
