@@ -273,11 +273,14 @@ body {
   padding: 0.4rem 0 0.4rem;
 }
 .md-typeset .fc-hero h1 {
-  font-size: 2.3rem;
-  line-height: 1.1;
+  font-size: 2.05rem;
+  line-height: 1.12;
   letter-spacing: -0.015em;
   font-weight: 600;
   margin: 0 0 0.9rem;
+}
+.md-typeset .fc-hero__sub {
+  color: var(--fc-muted);
 }
 .md-typeset .fc-lead {
   color: var(--fc-muted);

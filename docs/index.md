@@ -10,7 +10,7 @@ hide:
 
 <div class="fc-hero__text" markdown>
 
-# Write Python. Run your Qiskit code at native speed.
+# Write Python.<br><span class="fc-hero__sub">Run your Qiskit code<br>at native speed.</span>
 
 <p class="fc-lead">Python is easy to write and slow to run. Add one line,
 <code>with fastcircuit:</code>, and your Qiskit code runs as machine code instead.</p>
@@ -45,7 +45,7 @@ qc.measure_all()  # plain Qiskit, before and after
 
 </div>
 
-## Python is the bottleneck
+## Regular Python is the bottleneck
 
 <p class="fc-section-lead">The same 996,866 gates, added two ways.</p>
 
