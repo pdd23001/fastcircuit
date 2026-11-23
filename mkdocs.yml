@@ -11,6 +11,10 @@ copyright: Copyright &copy; fastcircuit contributors. Apache License 2.0.
 
 # docs/README.md is the index for people browsing the folder on GitHub; the site
 # has its own home page (index.md).
+# docs/changelog.md includes CHANGELOG.md; rebuild the preview when it changes.
+watch:
+  - CHANGELOG.md
+
 exclude_docs: |
   README.md
 
