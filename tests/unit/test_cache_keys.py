@@ -161,10 +161,12 @@ def test_qiskit_minor(version, expected):
 def test_untested_qiskit_is_rejected(monkeypatch):
     monkeypatch.setattr("qiskit.__version__", "2.7.0")
     monkeypatch.delenv("FASTCIRCUIT_ALLOW_UNTESTED_QISKIT", raising=False)
+    # The C backend: the Qiskit check is the same for both, and the LLVM backend's
+    # own check (llvmlite installed) would fire first where llvmlite has no wheels.
     with pytest.raises(IncompatibleEnvironmentError, match=r"tested with Qiskit 2\.6"):
-        _compat.check_environment()
+        _compat.check_environment("c")
     monkeypatch.setenv("FASTCIRCUIT_ALLOW_UNTESTED_QISKIT", "1")
-    _compat.check_environment()
+    _compat.check_environment("c")
 
 
 def test_free_threaded_build_is_rejected(monkeypatch):

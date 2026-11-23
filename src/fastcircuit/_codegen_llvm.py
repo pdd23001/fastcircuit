@@ -439,9 +439,11 @@ class LLVMGenerator:
         for k, v in enumerate(args):
             b.store(v, b.gep(self.uvals, [c64(k)], source_etype=F64))
         for k in range(n + 1):
+            # The char *args[] array holds addresses as i64 slots: an alloca of
+            # pointer type is 'ptr*' on llvmlite 0.45, which LLVM rejects.
             b.store(
-                b.gep(self.uvals, [c64(k)], source_etype=F64),
-                b.gep(self.uptrs, [c64(k)], source_etype=PTR),
+                b.ptrtoint(b.gep(self.uvals, [c64(k)], source_etype=F64), I64),
+                b.gep(self.uptrs, [c64(k)], source_etype=I64),
             )
             b.store(c64(0), b.gep(self.usteps, [c64(k)], source_etype=I64))  # as for 0-d
         b.store(c64(1), self.udims)
@@ -913,7 +915,7 @@ class LLVMGenerator:
         self.qs = self.alloca(I32, name="qs", count=4)
         self.ps = self.alloca(F64, name="ps", count=4)
         self.uvals = self.alloca(F64, name="uvals", count=3)  # NumPy loop calls
-        self.uptrs = self.alloca(PTR, name="uptrs", count=3)
+        self.uptrs = self.alloca(I64, name="uptrs", count=3)  # addresses (see ufunc)
         self.usteps = self.alloca(I64, name="usteps", count=3)
         self.udims = self.alloca(I64, name="udims")
         self.stmts(fn.body)
