@@ -146,7 +146,6 @@ body {
 .md-typeset a:hover {
   text-decoration-color: currentColor;
 }
-.md-typeset a.headerlink,
 .md-typeset .md-button,
 .md-typeset .fc-index a {
   text-decoration: none;
@@ -272,9 +271,6 @@ body {
   font-weight: 600;
   margin: 0 0 0.9rem;
 }
-.md-typeset .fc-hero h1 .headerlink {
-  display: none;
-}
 .md-typeset .fc-lead {
   color: var(--fc-muted);
   font-size: 0.92rem;
@@ -302,9 +298,6 @@ body {
 }
 
 /* Home page sections: one idea each, large headline, generous space */
-.md-content__inner:has(.fc-hero) .headerlink {
-  display: none;
-}
 .md-typeset .md-content__inner:has(.fc-hero) > h2,
 .md-content__inner:has(.fc-hero) > h2 {
   font-size: 1.75rem;
