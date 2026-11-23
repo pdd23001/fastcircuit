@@ -1,7 +1,7 @@
 # Releasing
 
 A checklist for maintainers. Publishing a GitHub release publishes the package:
-[`release.yml`](../.github/workflows/release.yml) builds it, uploads it to PyPI and
+[`release.yml`](https://github.com/pdd23001/fastcircuit/blob/main/.github/workflows/release.yml) builds it, uploads it to PyPI and
 attaches the files to the release. Pushing a tag alone publishes nothing.
 
 ## Before the release

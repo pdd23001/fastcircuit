@@ -65,6 +65,8 @@ test = [
 ]
 lint = ["ruff>=0.15", "mypy>=1.15", "actionlint-py>=1.7", "shellcheck-py>=0.10"]
 release = ["build>=1.2", "twine>=6"]
+# The documentation site (mkdocs.yml): tox -e docs
+docs = ["mkdocs>=1.6,<2", "mkdocs-material>=9.8,<10"]
 # Everything for working on fastcircuit (CONTRIBUTING.md): pip install -e . --group dev
 dev = [
     { include-group = "test" },

@@ -1,7 +1,7 @@
 # fastcircuit documentation
 
 **Using fastcircuit**
-- [User guide](guide.md): install, compile a function or a `with fastcircuit:`
+- [User guide](guide.md): install, compile a `with fastcircuit:`
   block, errors, the cache, environment variables, troubleshooting
 - [Supported syntax](supported-syntax.md): exactly what compiled code may
   contain

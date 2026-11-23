@@ -111,6 +111,24 @@ jobs:
           path: htmlcov
           retention-days: 14
 
+  docs:
+    # The documentation site builds with every warning (broken links included) an error.
+    name: docs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.14"
+      - name: tox -e docs
+        run: |
+          python -m pip install --upgrade "pip>=25.1"
+          python -m pip install -c ci/constraints.txt tox
+          tox -e docs
+
   package:
     # The same build and smoke tests release.yml runs before publishing.
     name: package
@@ -120,7 +138,7 @@ jobs:
     # The one check branch protection requires: green only if every job above passed.
     name: ci-ok
     if: always()
-    needs: [lint, test, coverage, package]
+    needs: [lint, test, coverage, docs, package]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:

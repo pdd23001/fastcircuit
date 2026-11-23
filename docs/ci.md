@@ -1,6 +1,6 @@
 # Continuous integration
 
-Three GitHub Actions workflows, and a reusable one they share. All default to a
+Four GitHub Actions workflows, and a reusable one two of them share. All default to a
 read-only token (`permissions: contents: read`; only the release jobs that need
 more ask for it), check out without persisting credentials, pin every action to
 a full commit SHA (the version is in a comment beside it), set a timeout on every
@@ -13,6 +13,7 @@ job, and install dependencies from `ci/constraints.txt`.
 | `lint` | `tox -e lint`: `ruff check`, `ruff format --check`, `mypy` for Linux and macOS, `actionlint` with shellcheck |
 | `test (<os>, py<version>, <backend>)` | Unit, component and integration tests on `ubuntu-24.04` and `macos-15` (arm64), Python 3.11 and 3.14, LLVM and C backends: 8 jobs. Tests run against the *installed* package (non-editable). Branch coverage is collected |
 | `coverage` | Combines the coverage data from every test job and fails below `fail_under` (`pyproject.toml`). Writes a Markdown summary and uploads the HTML report |
+| `docs` | `tox -e docs`: builds the documentation site with `mkdocs build --strict`, so a broken link or anchor fails |
 | `package / dist` | `package.yml`, shared with `release.yml`: builds the sdist and wheel, runs `twine check --strict`, installs **each** into a clean virtual environment, and runs `ci/smoke_installed.py` from outside the repository: correct circuit, second-process cache reuse, `doctor`. Uploads `dist/` |
 | `ci-ok` | Succeeds only if all of the above succeeded |
 
@@ -29,6 +30,14 @@ A newer push to a pull request cancels its running CI. Runs on `main` always fin
 The scheduled workflow is not a required check. A red run must be triaged:
 - a platform regression is a bug;
 - an advisory failure starts the work for the next Qiskit minor release.
+
+## `docs.yml`: the documentation site
+
+On every push to `main` that changes `docs/`, `mkdocs.yml` or the pinned
+versions, builds the site and publishes it to GitHub Pages
+(<https://pdd23001.github.io/fastcircuit/>). It runs only while the repository is
+public, since Pages is not free for private repositories. Preview locally with
+`tox -e docs -- serve`.
 
 ## `release.yml`: publishing a GitHub release
 
@@ -69,6 +78,7 @@ python -m pip install -c ci/constraints.txt -e . --group dev
 tox                  # lint, then the tests on the default and C backends
 tox -e coverage      # both backends, combined, against the coverage floor
 tox -e package       # build the sdist and wheel, twine check
+tox -e docs          # build the documentation site; tox -e docs -- serve to preview
 pre-commit install   # the cheap checks (ruff, YAML/TOML, actionlint) before each commit
 ```
 

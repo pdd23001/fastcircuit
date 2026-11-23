@@ -23,7 +23,7 @@ an incompatible change is found before a new minor release ships.
 **When Qiskit declares the C API stable** (planned upstream for Qiskit 2.7),
 fastcircuit will widen its Qiskit range to whatever the stability guarantee
 covers, drop the exact-minor check, and test the oldest and newest supported
-Qiskit in CI. That change will be announced in the [changelog](../CHANGELOG.md).
+Qiskit in CI. That change will be announced in the [changelog](https://github.com/pdd23001/fastcircuit/blob/main/CHANGELOG.md).
 
 ## Python
 
@@ -50,7 +50,7 @@ fastcircuit is **alpha** (`0.x`). Until 1.0:
   documented in the [user guide](guide.md). Modules whose names start with `_`
   are internal and can change at any time.
 - A minor release (`0.3`) may change the public API. Every change is listed in
-  the [changelog](../CHANGELOG.md), and when it is practical, a release first
+  the [changelog](https://github.com/pdd23001/fastcircuit/blob/main/CHANGELOG.md), and when it is practical, a release first
   deprecates the old behavior with a `DeprecationWarning`.
 - Patch releases (`0.2.1`) only fix bugs.
 - Accepting more syntax is not a breaking change. Rejecting syntax that used to

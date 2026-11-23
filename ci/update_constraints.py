@@ -1,8 +1,8 @@
 """Regenerate ci/constraints.txt: exact versions CI installs, per Python version.
 
 pip's own resolver runs (``--dry-run --report``) in a fresh virtual environment
-for each Python interpreter given, installing fastcircuit with the test, lint, release and
-dev groups. Packages that resolve to the same version everywhere are pinned
+for each Python interpreter given, installing fastcircuit with the test, lint, release, docs
+and dev groups. Packages that resolve to the same version everywhere are pinned
 once; the others get one ``python_version`` line per interpreter.
 
 llvmlite is deliberately absent: its version depends on the platform and is
@@ -21,7 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "ci" / "constraints.txt"
-GROUPS = ("test", "lint", "release", "dev")
+GROUPS = ("test", "lint", "release", "docs", "dev")
 EXCLUDE = {"fastcircuit", "llvmlite"}
 
 

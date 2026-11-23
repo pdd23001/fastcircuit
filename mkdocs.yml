@@ -1,0 +1,124 @@
+# Documentation site: https://pdd23001.github.io/fastcircuit/
+#   tox -e docs                       build it with every warning an error, as CI does
+#   tox -e docs -- serve              live preview at http://127.0.0.1:8000
+site_name: fastcircuit
+site_description: Compile Qiskit circuit-building code in 'with fastcircuit:' blocks to native code.
+site_url: https://pdd23001.github.io/fastcircuit/
+repo_url: https://github.com/pdd23001/fastcircuit
+repo_name: pdd23001/fastcircuit
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; fastcircuit contributors. Apache License 2.0.
+
+# docs/README.md is the index for people browsing the folder on GitHub; the site
+# has its own home page (index.md).
+exclude_docs: |
+  README.md
+
+nav:
+  - Home: index.md
+  - User guide: guide.md
+  - Supported syntax: supported-syntax.md
+  - Platforms: platforms.md
+  - Compatibility: compatibility.md
+  - Development:
+      - Architecture: architecture.md
+      - Continuous integration: ci.md
+      - Releasing: releasing.md
+      - Contributing: https://github.com/pdd23001/fastcircuit/blob/main/CONTRIBUTING.md
+  - Changelog: https://github.com/pdd23001/fastcircuit/blob/main/CHANGELOG.md
+
+theme:
+  name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  font:
+    text: Geist
+    code: Geist Mono
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to system preference
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil-outline
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+    - content.tabs.link
+
+plugins:
+  - search
+  # Downloads the web fonts at build time and serves them from the site itself,
+  # so readers' browsers never contact Google Fonts.
+  - privacy
+
+extra_css:
+  - assets/extra.css
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/pdd23001/fastcircuit
+      name: fastcircuit on GitHub
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/fastcircuit/
+      name: fastcircuit on PyPI
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    anchors: warn
+    absolute_links: warn
+    unrecognized_links: warn

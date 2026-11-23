@@ -101,6 +101,7 @@ run that passes locally passes in CI.
 | `tox -e c` | tests on the C backend | ~1 min |
 | `tox -e coverage` | both backends with combined branch coverage, failing below CI's floor | ~2 min |
 | `tox -e package` | builds the sdist and wheel and checks them as PyPI would | seconds |
+| `tox -e docs` | builds the documentation site, failing on any warning such as a broken link; `tox -e docs -- serve` previews it at http://127.0.0.1:8000 | seconds |
 
 Arguments after `--` go to pytest:
 

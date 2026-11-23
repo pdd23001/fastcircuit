@@ -11,6 +11,8 @@ dist/
 .coverage*
 coverage.xml
 htmlcov/
+site/
+.cache/
 artifacts/
 *.so
 fastcircuit-prototype.zip
