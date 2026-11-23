@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fastcircuit"
 dynamic = ["version"]
-description = "Compile Qiskit circuit-building code in 'with fastcircuit:' blocks to native code (alpha)"
+description = "Write Python, run your Qiskit code at native speed: one 'with fastcircuit:' line compiles it to machine code"
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE.txt"]
 authors = [{ name = "Parth Danve" }]
-keywords = ["qiskit", "quantum", "quantum-circuits", "compiler", "llvm", "jit"]
+keywords = ["qiskit", "quantum", "quantum-computing", "quantum-circuits", "performance", "compiler", "llvm", "jit"]
 requires-python = ">=3.11"
 # Qiskit's C API is experimental. The upper bound tracks the minor series that
 # the full test suite has passed on (see fastcircuit/_compat.py and

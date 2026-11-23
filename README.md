@@ -1,6 +1,6 @@
 # fastcircuit
 
-### Write Qiskit circuits in Python, as you always have. Build them at native speed.
+### Write Python. Run your Qiskit code at native speed.
 
 [![Release](https://img.shields.io/pypi/v/fastcircuit.svg?label=Release)](https://pypi.org/project/fastcircuit/)
 [![Python](https://img.shields.io/pypi/pyversions/fastcircuit?label=Python&logo=python)](https://pypi.org/project/fastcircuit/)
@@ -8,10 +8,10 @@
 ![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS-informational)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/pdd23001/fastcircuit/blob/main/LICENSE.txt)
 
-Wrap your Qiskit code in `with fastcircuit:`. That is the only change.
-fastcircuit compiles it to native code that appends every gate through
-[Qiskit's C API](https://quantum.cloud.ibm.com/docs/api/qiskit-c), and you get
-back the same ordinary `QuantumCircuit`, instruction for instruction.
+Add one line, `with fastcircuit:`, and the Qiskit code inside it is compiled to
+machine code that talks to Qiskit directly through its
+[C API](https://quantum.cloud.ibm.com/docs/api/qiskit-c). You keep writing
+ordinary Python. It runs up to 100× faster, with exactly the same results.
 
 ```python
 from qiskit import QuantumCircuit
@@ -30,30 +30,49 @@ def layered(n, layers, theta):
     return qc
 ```
 
-- **Native speed, Python syntax.** No new language, no type annotations, no C to
-  write. On an Apple M3 Pro, building circuits of 10,000 to a million gates was
-  37–105× faster than the same Python loop (about 100× for a million gates).
-  Results depend on the machine and the circuit.
-- **Exactly the same circuit.** Every instruction, parameter and exception
-  matches what plain Python builds, down to the line number in error messages.
-  (The one difference: integers are 64-bit, so overflow raises `OverflowError`.)
-- **Plain Qiskit in, plain Qiskit out.** The result is a normal `QuantumCircuit`:
-  transpile it, draw it, run it.
-- **Never silently wrong.** Code fastcircuit cannot compile is rejected with the
-  file and line. It never quietly falls back to slow Python.
-- **Compiled once.** Compiled code is cached, so later runs load it in
-  milliseconds. On most machines no C compiler is needed.
+## Why fastcircuit
 
-> **Status: alpha.** fastcircuit compiles a typed subset of Python: loops,
-> conditionals, arithmetic and 42 standard gates. The API may change before 1.0.
-> Small circuits gain little: the first compilation of a block takes tens of
-> milliseconds, or a few hundred the first time the compiler is loaded from disk.
+- **Up to 100× faster.** Python loops that call Qiskit run as native machine
+  code instead of interpreted bytecode. See the [benchmarks](#benchmarks).
+- **One line to adopt.** No new language, no type annotations, no C. Wrap the
+  slow part; everything around it stays plain Python and plain Qiskit.
+- **Identical results.** Every value and every exception matches plain Python,
+  down to the line number in the traceback, and the test suite checks this
+  against real Qiskit on every change. Code fastcircuit cannot compile is
+  rejected with its file and line, never quietly run as slow Python. (The one
+  difference: integers are 64-bit, so overflow raises `OverflowError`.)
+- **Works with the rest of Qiskit.** You get back an ordinary `QuantumCircuit`:
+  transpile it, draw it, run it on a simulator or on hardware.
+- **Nothing to set up.** `pip install fastcircuit`. On most machines no C
+  compiler is needed, and compiled code is cached, so later runs start in
+  milliseconds.
+
+## Benchmarks
+
+The same code run as plain Python and inside `with fastcircuit:`:
+
+| Workload | Gates | Plain Python | fastcircuit | Speedup |
+|---|---:|---:|---:|---:|
+| Layers of `h`, `rx` and `cx` | 996,866 | 1.52 s | 15.1 ms | **101×** |
+| Rotation angles read from a NumPy array | 225,000 | 377 ms | 4.5 ms | **84×** |
+| Hardware-efficient ansatz (2-D angle array, `np.cos`) | 300,000 | 523 ms | 7.8 ms | **67×** |
+| QFT-style controlled phases | 180,300 | 358 ms | 9.6 ms | **37×** |
+
+Apple M3 Pro, Python 3.14, Qiskit 2.6.2, default (LLVM) backend; median of 5
+runs, with every circuit checked instruction by instruction against the plain
+Python result. The gain grows with the number of gates: about 9× at 300 gates,
+and between 37× and 105× from 10,000 gates up in these workloads. Compiling a block takes tens of
+milliseconds once; after that it is loaded from the cache. Results depend on
+your machine and your code.
+
+> **Alpha.** The API may change before 1.0. fastcircuit is built for code that
+> adds many gates in loops; for a handful of gates, plain Qiskit is just as fast.
 
 ## Contents
 
 - [Installation](#installation)
-- [Your first compiled circuit](#your-first-compiled-circuit)
-- [What you can write](#what-you-can-write)
+- [Quick start](#quick-start)
+- [What runs natively today](#what-runs-natively-today)
 - [Documentation](#documentation)
 - [Compatibility and stability](#compatibility-and-stability)
 - [Contribution guidelines](#contribution-guidelines)
@@ -81,7 +100,7 @@ LLVM, through [llvmlite](https://llvmlite.readthedocs.io/).
 
 To work on fastcircuit itself, see the [contributing guide](https://github.com/pdd23001/fastcircuit/blob/main/CONTRIBUTING.md#setting-up-a-development-environment).
 
-## Your first compiled circuit
+## Quick start
 
 Put `with fastcircuit:` around your Qiskit code. The block appends to a circuit
 created before it, and takes the types of its variables from their values:
@@ -110,7 +129,7 @@ and literal assignments may run before fastcircuit is first imported. The
 [user guide](https://github.com/pdd23001/fastcircuit/blob/main/docs/guide.md#compile-a-block)
 has the details.
 
-## What you can write
+## What runs natively today
 
 - Variables holding Python `int` and `float` values, `np.float64` and `np.int64`
   values, and 1-D or 2-D `float64` or `int64` NumPy arrays (`theta[layer, q]`,
@@ -118,6 +137,8 @@ has the details.
 - `for ... in range(...)`, `if`/`elif`/`else`, local variables, arithmetic,
   comparisons, `math` and NumPy math functions, and array indexing
 - 42 standard gates, `measure` and `reset`
+
+More of Qiskit is planned, starting with `Parameter` support.
 
 Results match Python exactly, exceptions included: the same exception types, with
 the line number in your code. The one difference is that an integer result

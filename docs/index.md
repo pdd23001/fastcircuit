@@ -1,6 +1,6 @@
 ---
 title: fastcircuit
-description: Compile Qiskit circuit-building code in 'with fastcircuit:' blocks to native code.
+description: Write Python. Run your Qiskit code at native speed.
 hide:
   - navigation
   - toc
@@ -10,14 +10,14 @@ hide:
 
 <div class="fc-hero__text" markdown>
 
-# Build Qiskit circuits at native speed.
+# Write Python. Run your Qiskit code at native speed.
 
-<p class="fc-lead">Wrap your Qiskit code in <code>with fastcircuit:</code>. It compiles to
-native code and gives back the same <code>QuantumCircuit</code>.</p>
+<p class="fc-lead">Add one line, <code>with fastcircuit:</code>, and the code inside it
+compiles to machine code. Up to 100× faster, with identical results.</p>
 
 <p class="fc-actions" markdown>
 [Get started](guide.md){ .md-button .md-button--primary }
-[Supported syntax](supported-syntax.md){ .md-button }
+[See the benchmarks](#benchmarks){ .md-button }
 </p>
 
 </div>
@@ -51,42 +51,58 @@ def layered(n, layers, theta):
 
 <div class="fc-feature" markdown>
 
-### Python syntax, native speed
+### Up to 100× faster
 
-No new language and no annotations. On an Apple M3 Pro, circuits of 10,000 to
-1,000,000 gates were built 37 to 105 times faster than by the same Python loop.
-
-</div>
-
-<div class="fc-feature" markdown>
-
-### The same circuit, exactly
-
-Every instruction, parameter and exception matches plain Python, down to the
-line number. One difference: integers are 64-bit, so overflow raises
-`OverflowError`.
+Python loops that call Qiskit run as native machine code instead of interpreted
+bytecode, through Qiskit's own C API.
 
 </div>
 
 <div class="fc-feature" markdown>
 
-### Never silently wrong
+### One line to adopt
 
-Code that fastcircuit cannot compile is rejected with its file and line. It
-never falls back to running as slow Python.
+No new language, no type annotations, no C. Wrap the slow part; everything around
+it stays plain Python and plain Qiskit.
 
 </div>
 
 <div class="fc-feature" markdown>
 
-### Compiled once
+### Identical results
 
-Compiled code is cached across processes. On most machines no C compiler is
-needed: the default backend compiles in-process with LLVM.
+Every value and exception matches plain Python, down to the traceback line.
+Anything fastcircuit cannot compile is rejected, never silently run as slow Python.
+
+</div>
+
+<div class="fc-feature" markdown>
+
+### Nothing to set up
+
+`pip install fastcircuit`. No C compiler on most machines, and compiled code is
+cached, so later runs start in milliseconds.
 
 </div>
 
 </div>
+
+## Benchmarks
+
+The same code run as plain Python and inside `with fastcircuit:`.
+
+| Workload | Gates | Plain Python | fastcircuit | Speedup |
+|---|---:|---:|---:|---:|
+| Layers of `h`, `rx` and `cx` | 996,866 | 1.52 s | 15.1 ms | **101×** |
+| Rotation angles read from a NumPy array | 225,000 | 377 ms | 4.5 ms | **84×** |
+| Hardware-efficient ansatz (2-D angle array, `np.cos`) | 300,000 | 523 ms | 7.8 ms | **67×** |
+| QFT-style controlled phases | 180,300 | 358 ms | 9.6 ms | **37×** |
+
+<p class="fc-note">Apple M3 Pro, Python 3.14, Qiskit 2.6.2, default (LLVM) backend; median of
+5 runs, every circuit checked instruction by instruction against plain Python. The
+gain grows with the number of gates: about 9× at 300 gates, 37× to 105× from 10,000
+gates up. Compiling a block takes tens of milliseconds once, then it loads from the
+cache. Results depend on your machine and your code.</p>
 
 ## Install
 
@@ -95,15 +111,16 @@ pip install fastcircuit
 python -m fastcircuit doctor     # checks the backend, Qiskit and the cache
 ```
 
-fastcircuit needs Linux or macOS, Python 3.11 or newer, and Qiskit 2.6.
-[Platforms](platforms.md) lists the few setups that need a C compiler.
+Linux or macOS, Python 3.11 or newer, and Qiskit 2.6. [Platforms](platforms.md)
+lists the few setups that need a C compiler.
 
 !!! note "Alpha"
 
-    fastcircuit compiles a typed subset of Python: loops, conditionals,
-    arithmetic, `math` and NumPy math functions, arrays, and 42 standard gates.
-    The API may change before 1.0. Small circuits gain little, because the first
-    compilation of a block takes tens of milliseconds.
+    Today fastcircuit compiles loops, conditionals, arithmetic, `math` and NumPy
+    math functions, NumPy arrays, 42 standard gates, `measure` and `reset`. More of
+    Qiskit is planned, starting with `Parameter` support. The API may change
+    before 1.0. It is built for code that adds many gates in loops; for a handful
+    of gates, plain Qiskit is just as fast.
 
 ## Documentation
 

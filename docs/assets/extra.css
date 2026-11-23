@@ -200,6 +200,11 @@
   border-radius: 4px;
   padding: 0.05em 0.35em;
 }
+.md-content__inner:has(.fc-hero) .md-typeset__table,
+.md-content__inner:has(.fc-hero) .md-typeset__table table {
+  display: table;
+  width: 100%;
+}
 .md-typeset table:not([class]) {
   border: 1px solid var(--fc-border);
   border-radius: 8px;
@@ -287,6 +292,9 @@
   letter-spacing: -0.035em;
   margin: 0 0 0.9rem;
 }
+.md-typeset .fc-hero h1 .headerlink {
+  display: none;
+}
 .md-typeset .fc-lead {
   color: var(--fc-muted);
   font-size: 0.92rem;
@@ -308,6 +316,12 @@
 }
 .md-typeset .fc-hero__code pre > code {
   font-size: 0.72rem;
+}
+
+.md-typeset .fc-note {
+  color: var(--fc-muted);
+  font-size: 0.72rem;
+  line-height: 1.6;
 }
 
 .md-typeset .fc-features {

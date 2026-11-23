@@ -2,7 +2,7 @@
 #   tox -e docs                       build it with every warning an error, as CI does
 #   tox -e docs -- serve              live preview at http://127.0.0.1:8000
 site_name: fastcircuit
-site_description: Compile Qiskit circuit-building code in 'with fastcircuit:' blocks to native code.
+site_description: Write Python. Run your Qiskit code at native speed.
 site_url: https://pdd23001.github.io/fastcircuit/
 repo_url: https://github.com/pdd23001/fastcircuit
 repo_name: pdd23001/fastcircuit
