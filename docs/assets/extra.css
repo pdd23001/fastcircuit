@@ -4,7 +4,7 @@
  * borders instead of shadows, one radius scale: 6px controls, 8px blocks.
  */
 
-/* ---------- Tokens: light ---------- */
+/* ---------- Tokens (light mode only for now) ---------- */
 :root {
   --md-text-font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -68,69 +68,6 @@
   --md-admonition-bg-color: var(--fc-canvas);
 }
 
-/* ---------- Tokens: dark ---------- */
-[data-md-color-scheme="slate"] {
-  --fc-canvas: #141414;
-  --fc-surface: #1d1d1f;
-  --fc-text: #f5f5f7;
-  --fc-muted: #a1a1a6;
-  --fc-border: #2c2c2e;
-  --fc-accent: #f5f5f7;
-  --fc-accent-soft: rgb(245 245 247 / 0.08);
-  --fc-solid: #f5f5f7;
-  --fc-solid-hover: #ffffff;
-  --fc-on-solid: #1d1d1f;
-  --fc-bar-slow: #48484a;
-  --fc-bar-fast: #f5f5f7;
-
-  --md-default-bg-color: var(--fc-canvas);
-  --md-default-bg-color--light: rgb(20 20 20 / 0.54);
-  --md-default-bg-color--lighter: rgb(20 20 20 / 0.26);
-  --md-default-bg-color--lightest: rgb(20 20 20 / 0.07);
-  --md-code-bg-color--light: rgb(28 28 28 / 0.9);
-  --md-code-bg-color--lighter: rgb(231 231 228 / 0.08);
-  --md-shadow-z1: none;
-  --md-shadow-z2: 0 0 0 1px var(--fc-border);
-  --md-shadow-z3: 0 0 0 1px var(--fc-border);
-  --md-default-fg-color: rgb(231 231 228 / 0.87);
-  --md-default-fg-color--light: rgb(231 231 228 / 0.62);
-  --md-default-fg-color--lighter: rgb(231 231 228 / 0.32);
-  --md-default-fg-color--lightest: rgb(231 231 228 / 0.08);
-  --md-typeset-color: var(--fc-text);
-  --md-typeset-a-color: var(--fc-accent);
-  --md-accent-fg-color: var(--fc-accent);
-  --md-accent-fg-color--transparent: var(--fc-accent-soft);
-
-  --md-primary-fg-color: var(--fc-canvas);
-  --md-primary-fg-color--light: var(--fc-canvas);
-  --md-primary-fg-color--dark: var(--fc-canvas);
-  --md-primary-bg-color: var(--fc-text);
-  --md-primary-bg-color--light: var(--fc-muted);
-
-  --md-footer-bg-color: var(--fc-canvas);
-  --md-footer-bg-color--dark: var(--fc-canvas);
-  --md-footer-fg-color: var(--fc-text);
-  --md-footer-fg-color--light: var(--fc-muted);
-  --md-footer-fg-color--lighter: var(--fc-muted);
-
-  --md-code-bg-color: var(--fc-surface);
-  --md-code-fg-color: var(--fc-text);
-  --md-code-hl-keyword-color: #2997ff;
-  --md-code-hl-function-color: #e7e7e4;
-  --md-code-hl-name-color: #e7e7e4;
-  --md-code-hl-string-color: #9cc79a;
-  --md-code-hl-number-color: #d9b46a;
-  --md-code-hl-constant-color: #d9b46a;
-  --md-code-hl-special-color: #e59a97;
-  --md-code-hl-operator-color: #a2a19d;
-  --md-code-hl-punctuation-color: #a2a19d;
-  --md-code-hl-comment-color: #8a8985;
-  --md-code-hl-generic-color: #a2a19d;
-  --md-code-hl-variable-color: #e7e7e4;
-
-  --md-admonition-bg-color: var(--fc-canvas);
-}
-
 /* ---------- Chrome: header, tabs, footer ---------- */
 .md-header,
 .md-header--shadow {
@@ -143,9 +80,6 @@
 .md-header__topic:first-child {
   font-weight: 600;
   letter-spacing: -0.01em;
-}
-[data-md-color-scheme="slate"] .md-header__button.md-logo img {
-  filter: invert(1);
 }
 .md-search__form {
   background-color: var(--fc-surface);
@@ -274,8 +208,7 @@ body {
 
 /* ---------- Diagrams (Mermaid) ---------- */
 :root,
-[data-md-color-scheme="default"],
-[data-md-color-scheme="slate"] {
+[data-md-color-scheme="default"] {
   --md-mermaid-font-family: var(--md-text-font-family), sans-serif;
   --md-mermaid-edge-color: var(--fc-muted);
   --md-mermaid-node-bg-color: var(--fc-surface);

@@ -30,25 +30,11 @@ theme:
   favicon: assets/logo.svg
   # Apple's system fonts (SF Pro, SF Mono) where available; set in extra.css.
   font: false
+  # Light mode only for now.
   palette:
-    - media: "(prefers-color-scheme)"
-      toggle:
-        icon: material/brightness-auto
-        name: Switch to light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: custom
-      accent: custom
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: custom
-      accent: custom
-      toggle:
-        icon: material/weather-night
-        name: Switch to system preference
+    scheme: default
+    primary: custom
+    accent: custom
   icon:
     repo: fontawesome/brands/github
     edit: material/pencil-outline
