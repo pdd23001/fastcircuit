@@ -1,0 +1,106 @@
+# Publishing a GitHub release for a tag vX.Y.Z publishes fastcircuit X.Y.Z to PyPI:
+# check the release, build and smoke-test the distributions (package.yml, as in CI),
+# upload them to PyPI with trusted publishing (no API token is stored anywhere), then
+# attach the same files to the GitHub release. docs/releasing.md has the checklist.
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    # Refuses to publish unless the tag names the version in the source, the GitHub
+    # pre-release flag matches the version, and the commit is on main with ci-ok green.
+    name: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      checks: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check the tag, version, pre-release flag and CI status
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          TAG: ${{ github.event.release.tag_name }}
+          PRERELEASE: ${{ github.event.release.prerelease }}
+        run: |
+          version=$(sed -n 's/^__version__ = "\(.*\)"$/\1/p' src/fastcircuit/_version.py)
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::tag $TAG does not match __version__ = \"$version\"; expected v$version"
+            exit 1
+          fi
+          case "$version" in
+            *a* | *b* | *rc* | *dev*) expected=true ;;
+            *) expected=false ;;
+          esac
+          if [ "$PRERELEASE" != "$expected" ]; then
+            echo "::error::$version needs the GitHub release's pre-release box set to $expected"
+            exit 1
+          fi
+          status=$(gh api "repos/$REPO/compare/main...$SHA" --jq .status)
+          if [ "$status" != "identical" ] && [ "$status" != "behind" ]; then
+            echo "::error::$SHA is not on main (compare status: $status)"
+            exit 1
+          fi
+          passed=$(gh api "repos/$REPO/commits/$SHA/check-runs?check_name=ci-ok" \
+            --jq '[.check_runs[] | select(.conclusion == "success")] | length')
+          if [ "$passed" -eq 0 ]; then
+            echo "::error::ci-ok has not passed on $SHA; wait for CI on main, then re-run"
+            exit 1
+          fi
+          echo "releasing fastcircuit $version from $SHA"
+
+  package:
+    name: package
+    needs: verify
+    uses: ./.github/workflows/package.yml
+
+  pypi:
+    name: publish to PyPI
+    needs: package
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    # PyPI's trusted publisher for fastcircuit names this workflow and environment.
+    environment:
+      name: pypi
+      url: https://pypi.org/p/fastcircuit
+    permissions:
+      id-token: write # the OIDC token PyPI exchanges for a short-lived upload token
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
+
+  github:
+    name: attach to the GitHub release
+    needs: pypi
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write # upload release assets
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist
+      - name: Upload the distributions to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$TAG" dist/* --repo "$REPO"

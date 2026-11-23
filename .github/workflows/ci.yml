@@ -112,40 +112,9 @@ jobs:
           retention-days: 14
 
   package:
+    # The same build and smoke tests release.yml runs before publishing.
     name: package
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
-        with:
-          python-version: "3.14"
-      - name: Build sdist and wheel
-        run: |
-          python -m pip install --upgrade "pip>=25.1"
-          python -m pip install -c ci/constraints.txt --group release
-          python -m build --outdir dist .
-          python -m twine check --strict dist/*
-      - name: Install the wheel into a clean environment and smoke-test it
-        run: |
-          python -m venv "$RUNNER_TEMP/wheel-env"
-          "$RUNNER_TEMP/wheel-env/bin/python" -m pip install -c ci/constraints.txt dist/*.whl
-          cd "$RUNNER_TEMP"
-          "$RUNNER_TEMP/wheel-env/bin/python" -I "$GITHUB_WORKSPACE/ci/smoke_installed.py"
-      - name: Install the sdist into a clean environment and smoke-test it
-        run: |
-          python -m venv "$RUNNER_TEMP/sdist-env"
-          "$RUNNER_TEMP/sdist-env/bin/python" -m pip install -c ci/constraints.txt dist/*.tar.gz
-          cd "$RUNNER_TEMP"
-          "$RUNNER_TEMP/sdist-env/bin/python" -I "$GITHUB_WORKSPACE/ci/smoke_installed.py"
-      - name: Upload distributions
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: dist
-          path: dist
-          retention-days: 14
+    uses: ./.github/workflows/package.yml
 
   ci-ok:
     # The one check branch protection requires: green only if every job above passed.

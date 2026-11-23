@@ -1,9 +1,10 @@
 # Continuous integration
 
-Two GitHub Actions workflows. Both run with a read-only token
-(`permissions: contents: read`), check out without persisting credentials, pin
-every action to a full commit SHA (the version is in a comment beside it), set a
-timeout on every job, and install dependencies from `ci/constraints.txt`.
+Three GitHub Actions workflows, and a reusable one they share. All default to a
+read-only token (`permissions: contents: read`; only the release jobs that need
+more ask for it), check out without persisting credentials, pin every action to
+a full commit SHA (the version is in a comment beside it), set a timeout on every
+job, and install dependencies from `ci/constraints.txt`.
 
 ## `ci.yml`: every pull request and push to `main`
 
@@ -12,7 +13,7 @@ timeout on every job, and install dependencies from `ci/constraints.txt`.
 | `lint` | `tox -e lint`: `ruff check`, `ruff format --check`, `mypy` for Linux and macOS, `actionlint` with shellcheck |
 | `test (<os>, py<version>, <backend>)` | Unit, component and integration tests on `ubuntu-24.04` and `macos-15` (arm64), Python 3.11 and 3.14, LLVM and C backends: 8 jobs. Tests run against the *installed* package (non-editable). Branch coverage is collected |
 | `coverage` | Combines the coverage data from every test job and fails below `fail_under` (`pyproject.toml`). Writes a Markdown summary and uploads the HTML report |
-| `package` | Builds the sdist and wheel, runs `twine check --strict`, installs **each** into a clean virtual environment, and runs `ci/smoke_installed.py` from outside the repository: correct circuit, second-process cache reuse, `doctor`. Uploads `dist/` |
+| `package / dist` | `package.yml`, shared with `release.yml`: builds the sdist and wheel, runs `twine check --strict`, installs **each** into a clean virtual environment, and runs `ci/smoke_installed.py` from outside the repository: correct circuit, second-process cache reuse, `doctor`. Uploads `dist/` |
 | `ci-ok` | Succeeds only if all of the above succeeded |
 
 A newer push to a pull request cancels its running CI. Runs on `main` always finish.
@@ -28,6 +29,15 @@ A newer push to a pull request cancels its running CI. Runs on `main` always fin
 The scheduled workflow is not a required check. A red run must be triaged:
 - a platform regression is a bug;
 - an advisory failure starts the work for the next Qiskit minor release.
+
+## `release.yml`: publishing a GitHub release
+
+Publishes the release's version to PyPI with trusted publishing, after checking
+the tag, the version and `ci-ok` on the tagged commit, and attaches the files to
+the GitHub release. Only the PyPI job can request an OIDC token
+(`id-token: write`), only the last job can write to the repository
+(`contents: write`), and both run after the build. See
+[Releasing](releasing.md).
 
 ### Sanitizer limits
 
