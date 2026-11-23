@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/logo.svg" width="88" alt="fastcircuit logo">
+<img src="https://github.com/pdd23001/fastcircuit/raw/main/docs/assets/logo.svg" width="88" alt="fastcircuit logo">
 
 # fastcircuit
 
@@ -20,9 +20,9 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/benchmark-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/benchmark-light.svg">
-    <img alt="Bar chart: adding 996,866 gates takes 1.52 seconds in plain Python and 15.1 milliseconds with fastcircuit." src="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/benchmark-light.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/pdd23001/fastcircuit/raw/main/docs/assets/benchmark-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/pdd23001/fastcircuit/raw/main/docs/assets/benchmark-light.svg">
+    <img alt="Bar chart: adding 996,866 gates takes 1.52 seconds in plain Python and 15.1 milliseconds with fastcircuit." src="https://github.com/pdd23001/fastcircuit/raw/main/docs/assets/benchmark-light.svg">
   </picture>
 </p>
 
