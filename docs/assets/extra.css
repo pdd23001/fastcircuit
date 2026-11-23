@@ -398,6 +398,131 @@ body {
   margin: 0;
 }
 
+/* Benchmarks: build time per workload, Python vs fastcircuit (home.js starts it) */
+.md-typeset .fc-hist {
+  margin: 1.4rem 0 2rem;
+}
+.md-typeset .fc-hist__legend {
+  display: flex;
+  gap: 1.4rem;
+  font-size: 0.75rem;
+  color: var(--fc-muted);
+  margin-bottom: 1rem;
+}
+.md-typeset .fc-hist__key::before {
+  content: "";
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 3px;
+  margin-right: 0.45rem;
+  vertical-align: -0.05rem;
+}
+.md-typeset .fc-hist__key--slow::before {
+  background: var(--fc-bar-slow);
+}
+.md-typeset .fc-hist__key--fast::before {
+  background: var(--fc-bar-fast);
+}
+.md-typeset .fc-hist__plot,
+.md-typeset .fc-hist__labels {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding-left: 3rem;
+}
+.md-typeset .fc-hist__plot {
+  position: relative;
+  height: 17rem;
+  border-bottom: 1px solid var(--fc-text);
+}
+.md-typeset .fc-hist__ticks {
+  position: absolute;
+  inset: 0 0 0 3rem;
+  pointer-events: none;
+}
+.md-typeset .fc-hist__ticks b {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid var(--fc-border);
+  font-weight: 400;
+}
+.md-typeset .fc-hist__ticks b span {
+  position: absolute;
+  left: -3rem;
+  width: 2.6rem;
+  transform: translateY(-50%);
+  text-align: right;
+  font-size: 0.68rem;
+  color: var(--fc-muted);
+}
+.md-typeset .fc-hist__group {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 100%;
+}
+.md-typeset .fc-hist__col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 2.6rem;
+  height: 100%;
+}
+.md-typeset .fc-hist__col i {
+  display: block;
+  width: 100%;
+  height: var(--fc-h);
+  min-height: 3px;
+  border-radius: 0.4rem 0.4rem 0 0;
+  transform: scaleY(0);
+  transform-origin: bottom center;
+}
+.md-typeset .fc-hist__col--slow i {
+  background: var(--fc-bar-slow);
+}
+.md-typeset .fc-hist__col--fast i {
+  background: var(--fc-bar-fast);
+}
+.md-typeset .fc-hist__col span {
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  margin-bottom: 0.3rem;
+  opacity: 0;
+}
+.md-typeset .fc-hist__col--fast span {
+  font-weight: 600;
+}
+.md-typeset .fc-hist.is-running .fc-hist__col i {
+  transform: scaleY(1);
+  transition: transform var(--fc-t) linear;
+}
+.md-typeset .fc-hist.is-running .fc-hist__col span {
+  opacity: 1;
+  transition: opacity 200ms var(--fc-t);
+}
+.md-typeset .fc-hist__labels > div {
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  padding: 0.7rem 0.3rem 0;
+}
+.md-typeset .fc-hist__labels strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+.md-typeset .fc-hist__labels span {
+  display: block;
+  color: var(--fc-muted);
+  font-size: 0.7rem;
+}
+
 .md-typeset .fc-note {
   color: var(--fc-muted);
   font-size: 0.72rem;
@@ -473,6 +598,21 @@ body {
   }
 }
 @media screen and (max-width: 44.9844em) {
+  .md-typeset .fc-hist__col {
+    width: 1.5rem;
+  }
+  .md-typeset .fc-hist__col span {
+    font-size: 0.6rem;
+  }
+  .md-typeset .fc-hist__group {
+    gap: 0.25rem;
+  }
+  .md-typeset .fc-hist__labels > div {
+    font-size: 0.68rem;
+  }
+  .md-typeset .fc-hist__labels strong {
+    font-size: 0.82rem;
+  }
   .md-typeset .fc-hero h1 {
     font-size: 1.65rem;
   }
@@ -489,6 +629,15 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .md-typeset .fc-hist__col i,
+  .md-typeset .fc-hist.is-running .fc-hist__col i {
+    transform: none;
+    transition: none;
+  }
+  .md-typeset .fc-hist__col span {
+    opacity: 1;
+    transition: none;
+  }
   .md-typeset .fc-race__bar,
   .md-typeset .fc-race.is-running .fc-race__bar {
     transform: none;

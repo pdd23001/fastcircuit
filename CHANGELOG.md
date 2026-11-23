@@ -8,7 +8,6 @@ All notable changes and releases of fastcircuit are listed here.
 
 First public release.
 
-### Added
 - `with fastcircuit:` compiles a block of Qiskit code, written in a typed subset
   of Python (loops, conditionals, local variables, arithmetic and `math`), to
   native code that appends every gate to an ordinary `qiskit.QuantumCircuit`

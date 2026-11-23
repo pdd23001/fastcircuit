@@ -1,8 +1,8 @@
-// Home page: start the benchmark bar race when it scrolls into view.
+// Home page: animate the benchmark charts when they scroll into view.
 // Material's instant navigation swaps pages without reloading, so this runs
 // on every page change through document$.
 document$.subscribe(function () {
-  var races = document.querySelectorAll(".fc-race");
+  var races = document.querySelectorAll(".fc-race, .fc-hist");
   if (!races.length) return;
   if (!("IntersectionObserver" in window)) {
     races.forEach(function (race) { race.classList.add("is-running"); });

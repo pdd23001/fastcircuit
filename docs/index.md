@@ -113,7 +113,24 @@ cached, so later runs start in milliseconds.
 
 ## Benchmarks
 
-The same code run as plain Python and inside `with fastcircuit:`.
+<p class="fc-section-lead">Time to build each circuit, as plain Python and with <code>with fastcircuit:</code>.</p>
+
+<div class="fc-hist" role="img" aria-label="Build time per workload. Layers: 1.52 s in Python, 15 ms with fastcircuit. NumPy angles: 377 ms and 4.5 ms. Ansatz: 523 ms and 7.8 ms. QFT-style: 358 ms and 9.6 ms.">
+  <div class="fc-hist__legend"><span class="fc-hist__key fc-hist__key--slow">Plain Python</span><span class="fc-hist__key fc-hist__key--fast">fastcircuit</span></div>
+  <div class="fc-hist__plot">
+    <div class="fc-hist__ticks"><b style="bottom: 31.25%"><span>0.5 s</span></b><b style="bottom: 62.50%"><span>1 s</span></b><b style="bottom: 93.75%"><span>1.5 s</span></b></div>
+    <div class="fc-hist__group"><div class="fc-hist__col fc-hist__col--slow"><span>1.52 s</span><i style="--fc-h: 95.08%; --fc-t: 1521ms"></i></div><div class="fc-hist__col fc-hist__col--fast"><span>15 ms</span><i style="--fc-h: 0.95%; --fc-t: 15ms"></i></div></div>
+    <div class="fc-hist__group"><div class="fc-hist__col fc-hist__col--slow"><span>377 ms</span><i style="--fc-h: 23.53%; --fc-t: 376ms"></i></div><div class="fc-hist__col fc-hist__col--fast"><span>4.5 ms</span><i style="--fc-h: 0.28%; --fc-t: 4ms"></i></div></div>
+    <div class="fc-hist__group"><div class="fc-hist__col fc-hist__col--slow"><span>523 ms</span><i style="--fc-h: 32.66%; --fc-t: 523ms"></i></div><div class="fc-hist__col fc-hist__col--fast"><span>7.8 ms</span><i style="--fc-h: 0.49%; --fc-t: 8ms"></i></div></div>
+    <div class="fc-hist__group"><div class="fc-hist__col fc-hist__col--slow"><span>358 ms</span><i style="--fc-h: 22.38%; --fc-t: 358ms"></i></div><div class="fc-hist__col fc-hist__col--fast"><span>9.6 ms</span><i style="--fc-h: 0.60%; --fc-t: 10ms"></i></div></div>
+  </div>
+  <div class="fc-hist__labels">
+    <div><strong>101× faster</strong>Layers of gates<span>996,866 gates</span></div>
+    <div><strong>84× faster</strong>NumPy angles<span>225,000 gates</span></div>
+    <div><strong>67× faster</strong>Ansatz<span>300,000 gates</span></div>
+    <div><strong>37× faster</strong>QFT-style<span>180,300 gates</span></div>
+  </div>
+</div>
 
 | Workload | Gates | Plain Python | fastcircuit | Speedup |
 |---|---:|---:|---:|---:|
