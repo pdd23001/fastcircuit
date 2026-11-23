@@ -2,9 +2,9 @@
 
 All notable changes and releases of fastcircuit are listed here.
 
-## [Unreleased]
+## [0.1.0] - 2026-11-23
 
-First public release, planned as `0.1.0`. Nothing has been published yet.
+First public release.
 
 ### Added
 - `with fastcircuit:` compiles a block of Qiskit code, written in a typed subset
