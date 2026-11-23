@@ -44,8 +44,8 @@ jobs:
             exit 1
           fi
           escaped=${version//./\\.}
-          if ! grep -q "^## \\[$escaped\\]" CHANGELOG.md; then
-            echo "::error::CHANGELOG.md has no '## [$version]' section; move the Unreleased entries under it first"
+          if ! grep -q "^## v$escaped$" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no '## v$version' section; add it before releasing"
             exit 1
           fi
           case "$version" in

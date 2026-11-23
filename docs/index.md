@@ -128,7 +128,7 @@ gain grows with the number of gates: about 9× at 300 gates, 37× to 105× from 
 gates up. Compiling a block takes tens of milliseconds once, then it loads from the
 cache. Results depend on your machine and your code.</p>
 
-## What it speeds up
+## What does it speed up?
 
 fastcircuit speeds up the Python you write around Qiskit, not Qiskit itself.
 

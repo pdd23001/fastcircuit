@@ -2,7 +2,9 @@
 
 All notable changes and releases of fastcircuit are listed here.
 
-## [0.1.0] - 2026-11-23
+## v0.1.0
+
+<p class="fc-release-date">November 23, 2026</p>
 
 First public release.
 

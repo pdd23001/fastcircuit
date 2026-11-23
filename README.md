@@ -97,7 +97,7 @@ Results depend on your machine and your code.
 
 ---
 
-## What it speeds up
+## What does it speed up?
 
 fastcircuit speeds up **the Python you write around Qiskit**: the loops,
 arithmetic and Qiskit calls that build your circuits, which Python otherwise runs
