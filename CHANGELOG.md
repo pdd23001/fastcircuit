@@ -1,9 +1,6 @@
 # Changelog
 
-All notable changes to fastcircuit are listed here. The format follows
-[Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
-[Semantic Versioning](https://semver.org/) with the pre-1.0 rules in
-[docs/compatibility.md](https://github.com/pdd23001/fastcircuit/blob/main/docs/compatibility.md).
+All notable changes and releases of fastcircuit are listed here.
 
 ## [Unreleased]
 
