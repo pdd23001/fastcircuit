@@ -25,33 +25,33 @@ calls Qiskit's C API directly. You keep writing ordinary Python. It runs up to
 from qiskit import QuantumCircuit
 import fastcircuit
 
+n, layers, theta = 100, 1000, 0.25
+qc = QuantumCircuit(n)
 
-def layered(n, layers, theta):
-    qc = QuantumCircuit(n)
-    with fastcircuit:  # the only new line
-        for layer in range(layers):
-            for i in range(n):
-                qc.rx(theta * layer, i)
-            for i in range(n - 1):
-                qc.cx(i, i + 1)
-    qc.measure_all()  # plain Qiskit, before and after
-    return qc
+with fastcircuit:  # the only new line
+    for layer in range(layers):
+        for i in range(n):
+            qc.rx(theta * layer, i)
+        for i in range(n - 1):
+            qc.cx(i, i + 1)
+
+qc.measure_all()  # plain Qiskit, before and after
 ```
 
 ## Why fastcircuit
 
-- **Up to 100× faster.** Python loops that call Qiskit run as native machine
+- **Up to 100× faster:** Python loops that call Qiskit run as native machine
   code instead of interpreted bytecode. See the [benchmarks](#benchmarks).
-- **One line to adopt.** No new language, no type annotations, no C. Wrap the
+- **One line to adopt:** No new language, no type annotations, no C. Wrap the
   slow part; everything around it stays plain Python and plain Qiskit.
-- **Identical results.** Every value and every exception matches plain Python,
+- **Identical results:** Every value and every exception matches plain Python,
   down to the line number in the traceback, and the test suite checks this
   against real Qiskit on every change. Code fastcircuit cannot compile is
   rejected with its file and line, never quietly run as slow Python. (The one
   difference: integers are 64-bit, so overflow raises `OverflowError`.)
-- **Works with the rest of Qiskit.** You get back an ordinary `QuantumCircuit`:
+- **Works with the rest of Qiskit:** You get back an ordinary `QuantumCircuit`:
   transpile it, draw it, run it on a simulator or on hardware.
-- **Nothing to set up.** `pip install fastcircuit`. On most machines no C
+- **Nothing to set up:** `pip install fastcircuit`. On most machines no C
   compiler is needed, and compiled code is cached, so later runs start in
   milliseconds.
 
@@ -85,7 +85,7 @@ circuit you get back. If your time goes to building circuits in Python loops,
 fastcircuit makes that faster; if it goes to `transpile` or to running circuits,
 it does not.
 
-> **Alpha.** The API may change before 1.0. fastcircuit is built for code that
+> **Alpha:** The API may change before 1.0. fastcircuit is built for code that
 > adds many gates in loops; for a handful of gates, plain Qiskit is just as fast.
 
 ## Contents

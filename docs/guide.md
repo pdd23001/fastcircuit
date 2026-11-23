@@ -68,7 +68,7 @@ change the surrounding code's variables. A block cannot `return`, `yield`,
 `with` cannot skip its own body, so fastcircuit rewrites blocks in the source
 before they run, as pytest does for `assert` statements.
 
-**Scripts.** Run them as usual, with `python script.py`. Imports can come in any
+**Scripts:** Run them as usual, with `python script.py`. Imports can come in any
 order. The one rule, for a script that contains blocks: before fastcircuit is
 first imported, directly or through one of your modules, the script may only
 import modules and assign literal values.
@@ -95,12 +95,12 @@ tracebacks are what they would be without fastcircuit. If anything else comes
 first, the first block that runs raises `BlockNotCompiledError`, naming the line
 to move.
 
-**Modules.** Blocks in any module you import work, whether or not the importing
+**Modules:** Blocks in any module you import work, whether or not the importing
 file uses fastcircuit. The exception: a module cannot run its own blocks while it
 is still being imported, so a module that imports fastcircuit itself cannot have
 a block at its top level, or call its block functions at its top level.
 
-**Notebooks.** In IPython, Jupyter, VS Code notebooks and Colab, blocks work in
+**Notebooks:** In IPython, Jupyter, VS Code notebooks and Colab, blocks work in
 cells run after `import fastcircuit` (or `%load_ext fastcircuit`), but not in
 the cell that imports it. The plain `python` interactive prompt is not supported.
 
@@ -202,15 +202,15 @@ python -m fastcircuit cache path
 
 Start with `python -m fastcircuit doctor`; it names the failing check.
 
-- **`IncompatibleEnvironmentError: fastcircuit is tested with Qiskit 2.6.x`.**
+- **`IncompatibleEnvironmentError: fastcircuit is tested with Qiskit 2.6.x`:**
   Install the Qiskit series named in the message. See
   [Compatibility](compatibility.md).
-- **`CompilerNotFoundError`.** You are on the C backend (doctor says why). On
+- **`CompilerNotFoundError`:** You are on the C backend (doctor says why). On
   macOS run `xcode-select --install`. On Linux install `gcc` or `clang` and the
   Python development headers (`python3-dev` / `python3-devel`).
-- **`BlockNotCompiledError`.** The block ran without being rewritten; the
+- **`BlockNotCompiledError`:** The block ran without being rewritten; the
   message says why and what to change. See [Where blocks work](#where-blocks-work).
-- **First run slow in every process.** With `fastcircuit.block(debug=True)`,
+- **First run slow in every process:** With `fastcircuit.block(debug=True)`,
   check that the second process says `code from: persistent cache`. If not, check
   `FASTCIRCUIT_NO_CACHE` and `python -m fastcircuit cache info`.
 

@@ -28,17 +28,17 @@ hide:
 from qiskit import QuantumCircuit
 import fastcircuit
 
+n, layers, theta = 100, 1000, 0.25
+qc = QuantumCircuit(n)
 
-def layered(n, layers, theta):
-    qc = QuantumCircuit(n)
-    with fastcircuit:  # the only new line
-        for layer in range(layers):
-            for i in range(n):
-                qc.rx(theta * layer, i)
-            for i in range(n - 1):
-                qc.cx(i, i + 1)
-    qc.measure_all()  # plain Qiskit, before and after
-    return qc
+with fastcircuit:  # the only new line
+    for layer in range(layers):
+        for i in range(n):
+            qc.rx(theta * layer, i)
+        for i in range(n - 1):
+            qc.cx(i, i + 1)
+
+qc.measure_all()  # plain Qiskit, before and after
 ```
 
 </div>

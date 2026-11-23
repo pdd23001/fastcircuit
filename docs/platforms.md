@@ -28,14 +28,14 @@ Every platform in CI also runs the full suite on the C backend. [CI](ci.md) list
 the jobs.
 
 Not supported:
-- **Python 3.10 and older.** Python 3.10 reached end-of-life in October 2026.
-- **Alpine/musl and glibc older than 2.28.** Qiskit publishes no wheel for them.
-- **32-bit platforms, PyPy, and free-threaded CPython.** Generated code relies on the
+- **Python 3.10 and older:** Python 3.10 reached end-of-life in October 2026.
+- **Alpine/musl and glibc older than 2.28:** Qiskit publishes no wheel for them.
+- **32-bit platforms, PyPy, and free-threaded CPython:** Generated code relies on the
   GIL and CPython's C API.
 
 ## Notes per platform
 
-- **Intel Macs.** llvmlite 0.46 dropped Intel macOS wheels. fastcircuit uses
+- **Intel Macs:** llvmlite 0.46 dropped Intel macOS wheels. fastcircuit uses
   llvmlite 0.45 (bundling LLVM 20 instead of 22) up to Python 3.13, the newest
   Python it supports. On Python 3.14+ pip does not install llvmlite there, and
   fastcircuit uses the C backend automatically.

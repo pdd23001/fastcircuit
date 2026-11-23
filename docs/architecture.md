@@ -72,7 +72,7 @@ qubit and classical bit counts at run time.
 Both backends compile the **same IR** and must give **identical results**. The
 test suite runs against each one.
 
-**LLVM (default).** Compiles in-process with llvmlite (O2), with no C compiler or
+**LLVM (default):** Compiles in-process with llvmlite (O2), with no C compiler or
 Python headers. Qiskit's C functions are called through the function-pointer
 table that Qiskit exports for Python extensions
 (`qiskit._accelerate.capi.QK_FFI_CIRCUIT`). Slot numbers and gate enum values
@@ -81,7 +81,7 @@ at run time, so object files contain no process-specific addresses and can be
 cached. libm functions are called under private symbol names, so LLVM cannot
 replace them with different arithmetic (for example, `pow(x, 2.0)` → `x*x`).
 
-**C.** Generates a CPython extension module and compiles it with the system C
+**C:** Generates a CPython extension module and compiles it with the system C
 compiler (`-O2 -fno-builtin`, warnings as errors in tests). It is used where
 llvmlite has no wheels, and on request (`FASTCIRCUIT_BACKEND=c`).
 
@@ -106,20 +106,20 @@ with the source line of `site`.
 
 Changes must keep these. Most have dedicated tests.
 
-1. **Same circuit as Python.** Same instructions in the same order, same
+1. **Same circuit as Python:** Same instructions in the same order, same
    exceptions. Differences are bugs, except for 64-bit integer overflow
    (`OverflowError`), which is documented.
-2. **No silent fallback.** Anything the compiler does not understand is rejected
+2. **No silent fallback:** Anything the compiler does not understand is rejected
    at import, or the first time the block runs. It is never run as Python
    instead.
-3. **Python semantics, exactly.** Checked int64 arithmetic; Python's `//` and `%`
+3. **Python semantics, exactly:** Checked int64 arithmetic; Python's `//` and `%`
    sign rules; CPython's float `%` and `//`; exact mixed int/float comparisons;
    CPython's `math` error rules; left-to-right evaluation.
-4. **Validated inputs.** Values are type-checked before native code runs.
+4. **Validated inputs:** Values are type-checked before native code runs.
    Arrays are never copied and are bounds-checked on every access.
-5. **Bounded and interruptible.** Hard limits on qubits, gates and iterations, and
+5. **Bounded and interruptible:** Hard limits on qubits, gates and iterations, and
    `PyErr_CheckSignals` every 16,384 iterations.
-6. **The cache never serves stale or foreign code.** Keys cover the generated
+6. **The cache never serves stale or foreign code:** Keys cover the generated
    code, the toolchain and every version that affects meaning. Entries are
    checksummed, written atomically, compiled once under a lock, and loaded only
    from a directory owned by the user and not writable by others.
