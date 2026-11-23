@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fastcircuit"
 dynamic = ["version"]
-description = "Compile restricted Qiskit circuit-building functions to native code (alpha)"
+description = "Compile Qiskit circuit-building code in 'with fastcircuit:' blocks to native code (alpha)"
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE.txt"]
