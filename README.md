@@ -1,14 +1,32 @@
 # fastcircuit
 
-### Write Python. Run your Qiskit code at native speed.
-
 [![Release](https://img.shields.io/pypi/v/fastcircuit.svg?label=Release)](https://pypi.org/project/fastcircuit/)
 [![Python](https://img.shields.io/pypi/pyversions/fastcircuit?label=Python&logo=python)](https://pypi.org/project/fastcircuit/)
 [![Qiskit](https://img.shields.io/badge/Qiskit-2.6-6133BD?logo=Qiskit)](https://github.com/Qiskit/qiskit)
 ![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS-informational)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/pdd23001/fastcircuit/blob/main/LICENSE.txt)
 
-**Python is easy to write and slow to run.** A Python loop that adds a million
+### Write Python. Run your Qiskit code at native speed.
+
+[**Documentation**](https://pdd23001.github.io/fastcircuit/) |
+[**PyPI**](https://pypi.org/project/fastcircuit/) |
+[**Changelog**](https://github.com/pdd23001/fastcircuit/blob/main/CHANGELOG.md)
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/benchmark-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/benchmark-light.svg">
+    <img alt="Bar chart: adding 996,866 gates takes 1.52 seconds in plain Python and 15.1 milliseconds with fastcircuit." src="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/benchmark-light.svg">
+  </picture>
+</p>
+
+<p align="center">
+  <i>Adding 996,866 gates to a circuit on an Apple M3 Pro. <a href="#benchmarks">More benchmarks</a>.</i>
+</p>
+
+---
+
+**Python is easy to write and slow to run:** A Python loop that adds a million
 gates to a circuit takes 1.5 seconds, and almost all of that time goes to the
 Python interpreter, not to adding the gates: the same gates added from native
 code take 15 milliseconds. Qiskit's core is written in Rust for exactly this
@@ -16,7 +34,7 @@ reason, and its [C API](https://quantum.cloud.ibm.com/docs/api/qiskit-c) lets
 compiled programs use Qiskit at native speed. But to use it, you have to leave
 Python.
 
-**fastcircuit gives you that speed without leaving Python.** Add one line,
+**fastcircuit gives you that speed without leaving Python:** Add one line,
 `with fastcircuit:`, and the code inside it is compiled to machine code that
 calls Qiskit's C API directly. You keep writing ordinary Python. It runs up to
 100× faster, with exactly the same results.
@@ -38,7 +56,9 @@ with fastcircuit:  # the only new line
 qc.measure_all()  # plain Qiskit, before and after
 ```
 
-## Why fastcircuit
+---
+
+## Why fastcircuit?
 
 - **Up to 100× faster:** Python loops that call Qiskit run as native machine
   code instead of interpreted bytecode. See the [benchmarks](#benchmarks).
@@ -54,6 +74,8 @@ qc.measure_all()  # plain Qiskit, before and after
 - **Nothing to set up:** `pip install fastcircuit`. On most machines no C
   compiler is needed, and compiled code is cached, so later runs start in
   milliseconds.
+
+---
 
 ## Benchmarks
 
@@ -73,6 +95,8 @@ and between 37× and 105× from 10,000 gates up in these workloads. Compiling a
 block takes tens of milliseconds once; after that it is loaded from the cache.
 Results depend on your machine and your code.
 
+---
+
 ## What it speeds up
 
 fastcircuit speeds up **the Python you write around Qiskit**: the loops,
@@ -88,6 +112,8 @@ it does not.
 > **Alpha:** The API may change before 1.0. fastcircuit is built for code that
 > adds many gates in loops; for a handful of gates, plain Qiskit is just as fast.
 
+---
+
 ## Contents
 
 - [Installation](#installation)
@@ -99,6 +125,8 @@ it does not.
 - [Citation](#citation)
 - [Changelog](#changelog)
 - [License](#license)
+
+---
 
 ## Installation
 
@@ -119,6 +147,8 @@ LLVM, through [llvmlite](https://llvmlite.readthedocs.io/).
 | Linux ppc64le and s390x | — | Python 3.11+ |
 
 To work on fastcircuit itself, see the [contributing guide](https://github.com/pdd23001/fastcircuit/blob/main/CONTRIBUTING.md#setting-up-a-development-environment).
+
+---
 
 ## Quick start
 
@@ -149,6 +179,8 @@ and literal assignments may run before fastcircuit is first imported. The
 [user guide](https://github.com/pdd23001/fastcircuit/blob/main/docs/guide.md#compile-a-block)
 has the details.
 
+---
+
 ## What runs natively today
 
 - Variables holding Python `int` and `float` values, `np.float64` and `np.int64`
@@ -165,6 +197,8 @@ the line number in your code. The one difference is that an integer result
 outside 64 bits raises `OverflowError`. The full list is in
 [Supported syntax](https://github.com/pdd23001/fastcircuit/blob/main/docs/supported-syntax.md).
 
+---
+
 ## Documentation
 
 - [User guide](https://github.com/pdd23001/fastcircuit/blob/main/docs/guide.md):
@@ -177,6 +211,8 @@ outside 64 bits raises `OverflowError`. The full list is in
 - [Architecture](https://github.com/pdd23001/fastcircuit/blob/main/docs/architecture.md):
   how the compiler works, for contributors
 
+---
+
 ## Compatibility and stability
 
 fastcircuit follows [semantic versioning](https://semver.org/). Before 1.0, a
@@ -184,6 +220,8 @@ minor release may change the API; every change is listed in the changelog.
 Qiskit's C API is still experimental, so each fastcircuit release supports one
 Qiskit minor series and refuses others with a clear error. Details are in the
 [compatibility policy](https://github.com/pdd23001/fastcircuit/blob/main/docs/compatibility.md).
+
+---
 
 ## Contribution guidelines
 
@@ -197,17 +235,23 @@ We use [GitHub issues](https://github.com/pdd23001/fastcircuit/issues) for bugs,
 feature requests and questions. Please report security problems privately, as
 described in [SECURITY.md](https://github.com/pdd23001/fastcircuit/blob/main/SECURITY.md).
 
+---
+
 ## Citation
 
 If you use fastcircuit in your work, please cite it using the metadata in
 [CITATION.cff](https://github.com/pdd23001/fastcircuit/blob/main/CITATION.cff)
 ("Cite this repository" on GitHub).
 
+---
+
 ## Changelog
 
 Notable changes in each release are listed in the
 [changelog](https://github.com/pdd23001/fastcircuit/blob/main/CHANGELOG.md) and on
 the [releases page](https://github.com/pdd23001/fastcircuit/releases).
+
+---
 
 ## License
 

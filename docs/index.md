@@ -58,7 +58,7 @@ compiled programs use Qiskit at native speed. But to use it, you have to leave
 Python. fastcircuit closes the gap: the Python you already write is compiled to machine code that calls the C API
 directly.
 
-## Why fastcircuit
+## Why fastcircuit?
 
 <div class="fc-features" markdown>
 
