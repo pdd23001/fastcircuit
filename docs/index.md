@@ -117,6 +117,38 @@ gain grows with the number of gates: about 9× at 300 gates, 37× to 105× from 
 gates up. Compiling a block takes tens of milliseconds once, then it loads from the
 cache. Results depend on your machine and your code.</p>
 
+## What it speeds up
+
+fastcircuit speeds up the Python you write around Qiskit, not Qiskit itself.
+
+<div class="fc-scope" markdown>
+
+<div markdown>
+
+### Faster with fastcircuit
+
+- Python loops that build circuits
+- Arithmetic, `math` and NumPy functions on angles and indices
+- Every gate, `measure` and `reset` call inside the block
+
+</div>
+
+<div markdown>
+
+### Already native, unchanged
+
+- `transpile` and the rest of Qiskit's Rust core
+- Simulators and primitives that run your circuits
+- Code outside `with fastcircuit:`
+
+</div>
+
+</div>
+
+If your time goes to building circuits in Python loops, fastcircuit makes that
+faster. If it goes to transpiling or running circuits, it does not: that work is
+already compiled.
+
 ## Install
 
 ```bash

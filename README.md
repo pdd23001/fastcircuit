@@ -69,9 +69,21 @@ The same code run as plain Python and inside `with fastcircuit:`:
 Apple M3 Pro, Python 3.14, Qiskit 2.6.2, default (LLVM) backend; median of 5
 runs, with every circuit checked instruction by instruction against the plain
 Python result. The gain grows with the number of gates: about 9× at 300 gates,
-and between 37× and 105× from 10,000 gates up in these workloads. Compiling a block takes tens of
-milliseconds once; after that it is loaded from the cache. Results depend on
-your machine and your code.
+and between 37× and 105× from 10,000 gates up in these workloads. Compiling a
+block takes tens of milliseconds once; after that it is loaded from the cache.
+Results depend on your machine and your code.
+
+## What it speeds up
+
+fastcircuit speeds up **the Python you write around Qiskit**: the loops,
+arithmetic and Qiskit calls that build your circuits, which Python otherwise runs
+one instruction at a time. Today that means circuit construction.
+
+It does not change Qiskit itself. The transpiler, the simulators and the rest of
+Qiskit's core are already compiled Rust, and they run exactly as before on the
+circuit you get back. If your time goes to building circuits in Python loops,
+fastcircuit makes that faster; if it goes to `transpile` or to running circuits,
+it does not.
 
 > **Alpha.** The API may change before 1.0. fastcircuit is built for code that
 > adds many gates in loops; for a handful of gates, plain Qiskit is just as fast.
