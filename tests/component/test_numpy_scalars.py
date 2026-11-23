@@ -34,7 +34,8 @@ def element_ops(a: np.ndarray, x: float, k: int, which: int):
     elif which == 2:
         qc.rz(x / a[0], 0)
     elif which == 3:
-        qc.rz(a[0] // x + k // a[1], 0)
+        qc.rz(a[0] // x, 0)  # separate gates: at most one NaN per +, see test_nan_sign
+        qc.rz(k // a[1], 0)
     elif which == 4:
         qc.rz(a[0] % x, 0)
     elif which == 5:

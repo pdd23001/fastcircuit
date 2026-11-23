@@ -1,9 +1,10 @@
 """NumPy math functions in compiled blocks: their own float64 inner loops.
 
-``np.sin(x)`` on a scalar runs the ufunc's ``d->d`` inner loop once. Compiled code
-calls that same loop directly, so results are bit-identical to NumPy on every CPU
-(NumPy uses its own SIMD implementations for several functions, which can differ
-from the C library's). The loop addresses are read from the ufunc object
+``np.sin(x)`` on a scalar runs the ufunc's ``d->d`` inner loop once, with every
+step 0 (its operands are 0-d arrays). Compiled code calls that same loop directly,
+with the same steps (SIMD loops choose their code path by step), so results are
+NumPy's own bits (NumPy uses its own SIMD implementations for several functions,
+which can differ from the C library's). The loop addresses are read from the ufunc object
 (``PyUFuncObject`` in numpy/ufuncobject.h, a layout unchanged since NumPy 1.x),
 checked against the ufunc's Python attributes, and self-tested against the ufunc
 itself before first use.
@@ -72,7 +73,7 @@ def _call(func: int, datum: int, *xs: float) -> float:
     n = len(xs) + 1
     values = (ctypes.c_double * n)(*xs, 0.0)
     args = (ctypes.c_void_p * n)(*(ctypes.addressof(values) + 8 * k for k in range(n)))
-    steps = (ctypes.c_ssize_t * n)(*([8] * n))
+    steps = (ctypes.c_ssize_t * n)()  # all 0, as NumPy passes for scalars (0-d arrays)
     _LOOP(func)(args, ctypes.byref(ctypes.c_ssize_t(1)), steps, datum or None)
     return float(values[n - 1])
 

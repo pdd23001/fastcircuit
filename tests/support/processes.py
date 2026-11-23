@@ -75,6 +75,10 @@ def compile_invocations(log: Path) -> list[str]:
 
 def child_env(cache: Path, **extra: str) -> dict[str, str]:
     env = {k: v for k, v in os.environ.items() if not k.startswith("FASTCIRCUIT_")}
+    # Plain output whatever the parent's settings (CI sets FORCE_COLOR, which makes
+    # Python 3.13+ colour tracebacks), so tests can compare it as text.
+    env.pop("FORCE_COLOR", None)
+    env["PYTHON_COLORS"] = "0"
     env["FASTCIRCUIT_CACHE_DIR"] = str(cache)
     env.update(extra)
     return env

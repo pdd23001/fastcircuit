@@ -443,7 +443,7 @@ class LLVMGenerator:
                 b.gep(self.uvals, [c64(k)], source_etype=F64),
                 b.gep(self.uptrs, [c64(k)], source_etype=PTR),
             )
-            b.store(c64(8), b.gep(self.usteps, [c64(k)], source_etype=I64))
+            b.store(c64(0), b.gep(self.usteps, [c64(k)], source_etype=I64))  # as for 0-d
         b.store(c64(1), self.udims)
         slot = API_UFUNCS + 2 * e.index
         fn = b.load(b.gep(self.api, [c64(slot)], source_etype=I64), typ=I64)

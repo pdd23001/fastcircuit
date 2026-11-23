@@ -49,16 +49,24 @@ def test_circuit_data_not_leaked():
 
 
 def test_buffers_released_on_success_and_failure():
-    angles = np.arange(50.0)
-    base = sys.getrefcount(angles)
-    for _ in range(500):
-        from_array(4, angles, 1)
-    assert sys.getrefcount(angles) == base
-    for _ in range(500):
-        with pytest.raises(QubitIndexError):
-            from_array(4, angles, 99)  # fails after the buffer was acquired
-    assert sys.getrefcount(angles) == base
-    angles.resize(10, refcheck=True)  # would raise BufferError if still exported
+    def build_many() -> weakref.ref:
+        angles = np.arange(50.0)
+        base = sys.getrefcount(angles)
+        for _ in range(500):
+            from_array(4, angles, 1)
+        assert sys.getrefcount(angles) == base
+        for _ in range(500):
+            with pytest.raises(QubitIndexError):
+                from_array(4, angles, 99)  # fails after the buffer was acquired
+        assert sys.getrefcount(angles) == base
+        return weakref.ref(angles)
+
+    # A buffer still exported would keep the array alive after its last reference
+    # (here, build_many's frame) is gone. (An absolute refcount check, such as
+    # resize(refcheck=True), is unreliable under a trace function on Python 3.11.)
+    alive = build_many()
+    gc.collect()
+    assert alive() is None
 
 
 def test_partial_circuits_are_freed_on_failure():

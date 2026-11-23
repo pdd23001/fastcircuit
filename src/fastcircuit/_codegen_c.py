@@ -164,7 +164,7 @@ FC_HELPER int fc_init_ufuncs(void) {
 FC_HELPER double fc_ufunc1(int k, double a) {
     double r = 0.0;
     char *args[2] = {(char *)&a, (char *)&r};
-    const Py_ssize_t n = 1, steps[2] = {sizeof(double), sizeof(double)};
+    const Py_ssize_t n = 1, steps[2] = {0, 0}; /* as NumPy for scalars (0-d) */
     fc_ufuncs[k].func(args, &n, steps, fc_ufuncs[k].data);
     return r;
 }
@@ -172,7 +172,7 @@ FC_HELPER double fc_ufunc1(int k, double a) {
 FC_HELPER double fc_ufunc2(int k, double a, double b) {
     double r = 0.0;
     char *args[3] = {(char *)&a, (char *)&b, (char *)&r};
-    const Py_ssize_t n = 1, steps[3] = {sizeof(double), sizeof(double), sizeof(double)};
+    const Py_ssize_t n = 1, steps[3] = {0, 0, 0}; /* as NumPy for scalars (0-d) */
     fc_ufuncs[k].func(args, &n, steps, fc_ufuncs[k].data);
     return r;
 }

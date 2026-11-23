@@ -109,11 +109,13 @@ def test_rerun_preserves_exit_code_output_and_main_module(tmp_path):
 def test_rerun_reports_errors_like_python(tmp_path):
     write(tmp_path, "app.py", RERUN + "def boom():\n    raise ValueError('bad')\n\nboom()\n")
     result = run(["app.py"], tmp_path, tmp_path / "cache")
-    assert result.returncode == 1
+    assert result.returncode == 1, result.stderr
     lines = result.stderr.splitlines()
-    assert lines[0] == "Traceback (most recent call last):"
-    assert lines[1].startswith(f'  File "{tmp_path / "app.py"}", line 16, in <module>')
-    assert lines[-1] == "ValueError: bad"
+    assert lines[0] == "Traceback (most recent call last):", result.stderr
+    assert lines[1].startswith(f'  File "{tmp_path / "app.py"}", line 16, in <module>'), (
+        result.stderr
+    )
+    assert lines[-1] == "ValueError: bad", result.stderr
     assert "fastcircuit" not in result.stderr.replace("import fastcircuit", "")
 
 
