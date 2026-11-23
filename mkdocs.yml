@@ -31,9 +31,8 @@ theme:
   name: material
   logo: assets/logo.svg
   favicon: assets/logo.svg
-  font:
-    text: Geist
-    code: Geist Mono
+  # Apple's system fonts (SF Pro, SF Mono) where available; set in extra.css.
+  font: false
   palette:
     - media: "(prefers-color-scheme)"
       toggle:
@@ -75,12 +74,12 @@ theme:
 
 plugins:
   - search
-  # Downloads the web fonts at build time and serves them from the site itself,
-  # so readers' browsers never contact Google Fonts.
-  - privacy
 
 extra_css:
   - assets/extra.css
+
+extra_javascript:
+  - assets/home.js
 
 extra:
   generator: false
@@ -108,7 +107,11 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
 

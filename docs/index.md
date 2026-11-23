@@ -47,9 +47,20 @@ qc.measure_all()  # plain Qiskit, before and after
 
 ## Python is the bottleneck
 
-<div class="fc-stats" markdown>
-<div class="fc-stat"><strong>1.52 s</strong><span>to add 996,866 gates from a plain Python loop</span></div>
-<div class="fc-stat fc-stat--fast"><strong>15 ms</strong><span>to add the same gates with <code>with fastcircuit:</code></span></div>
+<p class="fc-section-lead">The same 996,866 gates, added two ways.</p>
+
+<div class="fc-race" role="img" aria-label="Adding 996,866 gates: 1.52 seconds in a plain Python loop, 15 milliseconds with fastcircuit">
+  <div class="fc-race__row">
+    <div class="fc-race__label">Plain Python loop</div>
+    <div class="fc-race__value">1.52 s</div>
+    <div class="fc-race__bar" style="--fc-w: 100%; --fc-t: 1520ms"></div>
+  </div>
+  <div class="fc-race__row fc-race__row--fast">
+    <div class="fc-race__label"><code>with fastcircuit:</code></div>
+    <div class="fc-race__value">15 ms</div>
+    <div class="fc-race__bar" style="--fc-w: 1%; --fc-t: 15ms"></div>
+  </div>
+  <p class="fc-race__caption">Each bar fills in its measured time. Apple M3 Pro, Python 3.14, Qiskit 2.6.2.</p>
 </div>
 
 Almost all of that time goes to the Python interpreter, not to adding the gates.

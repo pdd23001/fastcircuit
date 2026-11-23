@@ -6,36 +6,28 @@ keep.
 
 ## Pipeline
 
-```text
-import (_hooks.py)
-      │
-      ▼
-_rewrite.py     find blocks, check what needs no values  ──►  UnsupportedSyntax
-                (at import), replace each block with a call to _block.run
-      │
-      ▼  the first time a block runs with a given combination of types
-_block.py       classify the values the block reads: the circuit, int/float/np.float64/array
-                variables, and modules and builtins resolved by identity
-      │
-      ▼
-_analysis.py    check the supported subset, scopes and types  ──►  UnsupportedSyntax
-      │
-      ▼
-_ir.py          typed intermediate representation (frozen dataclasses)
-      │
-      ├────────────────────────────┐
-      ▼                            ▼
-_codegen_llvm.py  IR → LLVM IR    _codegen_c.py  IR → C extension source
-_llvm.py          compile in      _build.py      compile with the system C
-                  process, JIT                   compiler, import the module
-      │                            │
-      └──────────────┬─────────────┘
-                     ▼
-_cache.py       persistent per-user cache of object code / extension modules
-                     │
-                     ▼
-_block.py       on every run: validate the values, call the native code with the
-                circuit, which appends every gate to it
+```mermaid
+flowchart TB
+    hooks("<b>_hooks.py</b><br>at import: the import hook")
+    rewrite("<b>_rewrite.py</b><br>find blocks, check what needs no values,<br>replace each block with a call to _block.run")
+    classify("<b>_block.py</b><br>classify the values the block reads")
+    analysis("<b>_analysis.py</b><br>check the subset, scopes and types")
+    ir("<b>_ir.py</b><br>typed intermediate representation")
+    llvm("<b>LLVM backend</b>, the default<br>_codegen_llvm.py, _llvm.py<br>compiles in process")
+    cback("<b>C backend</b><br>_codegen_c.py, _build.py<br>system C compiler")
+    cache("<b>_cache.py</b><br>persistent per-user cache")
+    run("<b>_block.py</b><br>validate the values, call the native code,<br>which appends every gate to the circuit")
+    err1(["UnsupportedSyntax"])
+    err2(["UnsupportedSyntax"])
+
+    hooks --> rewrite
+    rewrite -- "first run with a new<br>combination of types" --> classify
+    classify --> analysis --> ir
+    ir --> llvm --> cache
+    ir --> cback --> cache
+    cache -- "every run" --> run
+    rewrite -. rejects .-> err1
+    analysis -. rejects .-> err2
 ```
 
 | Module | Responsibility |
