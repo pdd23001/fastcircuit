@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use fastcircuit in your work, please cite it as below."
+type: software
+title: "fastcircuit: compiled circuit building for Qiskit"
+abstract: >-
+  fastcircuit compiles the Python code that builds Qiskit circuits, loops
+  included, to native code that appends gates through Qiskit's C API.
+authors:
+  - given-names: Parth
+    family-names: Danve
+repository-code: "https://github.com/pdd23001/fastcircuit"
+license: Apache-2.0
+keywords:
+  - qiskit
+  - quantum computing
+  - quantum circuits
+  - compiler

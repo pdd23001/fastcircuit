@@ -1,0 +1,22 @@
+name: Feature request
+description: Syntax, gates or behavior you would like fastcircuit to support
+labels: [enhancement]
+body:
+  - type: textarea
+    id: use-case
+    attributes:
+      label: What are you trying to build?
+      description: The circuit-building code you would like to compile, and what stops you today.
+      render: python
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should fastcircuit do?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What do you do instead today?

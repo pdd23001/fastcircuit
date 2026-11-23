@@ -1,0 +1,124 @@
+# Weekly and on demand: every supported platform and Python, sanitizers, and an
+# advisory run against newer Qiskit. Not a required check; failures open no PR but
+# must be triaged (docs/ci.md).
+name: Scheduled
+
+on:
+  schedule:
+    - cron: "17 4 * * 1" # Mondays 04:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scheduled-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PYTHONUNBUFFERED: "1"
+  FORCE_COLOR: "1"
+
+jobs:
+  matrix:
+    # backend "auto" is the user's default: LLVM where llvmlite installs, otherwise C
+    # (Intel macOS on Python 3.14). "c" forces the C backend everywhere.
+    name: matrix (${{ matrix.os }}, py${{ matrix.python }}, ${{ matrix.backend }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, ubuntu-24.04-arm, macos-15, macos-15-intel]
+        python: ["3.11", "3.12", "3.13", "3.14"]
+        backend: [auto, c]
+    env:
+      FASTCIRCUIT_BACKEND: ${{ matrix.backend == 'c' && 'c' || '' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install
+        run: |
+          python -m pip install --upgrade "pip>=25.1"
+          python -m pip install -c ci/constraints.txt . --group test
+      - name: Environment
+        run: python -m fastcircuit doctor
+      - name: Tests
+        env:
+          FASTCIRCUIT_CACHE_DIR: ${{ runner.temp }}/fastcircuit-cache
+        run: python -m pytest tests/unit tests/component tests/integration
+
+  sanitizers:
+    # Instruments only the C backend's generated code. CPython, NumPy, llvmlite and
+    # Qiskit's prebuilt Rust are not instrumented, so errors inside them are invisible
+    # and LeakSanitizer is disabled (interpreter allocations would be false positives).
+    name: sanitizers (${{ matrix.sanitizer }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer: [ubsan, asan]
+    env:
+      FASTCIRCUIT_BACKEND: c
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.14"
+      - name: Install
+        run: |
+          python -m pip install --upgrade "pip>=25.1"
+          python -m pip install -c ci/constraints.txt . --group test
+      - name: Tests under UndefinedBehaviorSanitizer
+        if: matrix.sanitizer == 'ubsan'
+        env:
+          FASTCIRCUIT_EXTRA_CFLAGS: -fsanitize=undefined -fno-sanitize-recover=undefined -fno-omit-frame-pointer
+          UBSAN_OPTIONS: print_stacktrace=1:halt_on_error=1
+          FASTCIRCUIT_CACHE_DIR: ${{ runner.temp }}/fastcircuit-cache
+        run: python -m pytest tests/component tests/integration -m "not slow"
+      - name: Tests under AddressSanitizer
+        if: matrix.sanitizer == 'asan'
+        env:
+          FASTCIRCUIT_EXTRA_CFLAGS: -fsanitize=address -fno-omit-frame-pointer
+          ASAN_OPTIONS: detect_leaks=0:abort_on_error=1
+          FASTCIRCUIT_CACHE_DIR: ${{ runner.temp }}/fastcircuit-cache
+        run: |
+          # The interpreter is not built with ASan, so the runtime must be preloaded
+          # before Python starts for the instrumented extensions to load.
+          LD_PRELOAD="$(gcc -print-file-name=libasan.so)" python -m pytest tests/component tests/integration -m "not slow"
+
+  qiskit-advisory:
+    # Early warning for the next Qiskit minor release (the C API is experimental).
+    # Never blocks: fastcircuit officially supports one Qiskit minor series.
+    name: advisory (newest Qiskit, pre-releases allowed)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    continue-on-error: true
+    env:
+      FASTCIRCUIT_ALLOW_UNTESTED_QISKIT: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.14"
+      - name: Install fastcircuit without its Qiskit pin, then the newest Qiskit
+        run: |
+          python -m pip install --upgrade "pip>=25.1"
+          python -m pip install --no-deps .
+          python -m pip install --pre --upgrade qiskit numpy "llvmlite>=0.50,<0.51"
+          python -m pip install -c ci/constraints.txt --group test
+          python -c "import qiskit; print('Qiskit', qiskit.__version__)"
+      - name: Tests
+        env:
+          FASTCIRCUIT_CACHE_DIR: ${{ runner.temp }}/fastcircuit-cache
+        run: python -m pytest tests/unit tests/component tests/integration

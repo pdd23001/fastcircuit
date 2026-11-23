@@ -1,0 +1,6 @@
+# Code owners are asked to review pull requests automatically, and their approval
+# is what a pull request needs to merge (when branch protection requires it).
+# Anyone can review a pull request; this file lists who is responsible for the
+# final review.
+
+* @pdd23001

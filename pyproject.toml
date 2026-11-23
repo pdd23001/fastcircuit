@@ -1,0 +1,144 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastcircuit"
+dynamic = ["version"]
+description = "Compile restricted Qiskit circuit-building functions to native code (alpha)"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE.txt"]
+authors = [{ name = "Parth Danve" }]
+keywords = ["qiskit", "quantum", "quantum-circuits", "compiler", "llvm", "jit"]
+requires-python = ">=3.11"
+# Qiskit's C API is experimental. The upper bound tracks the minor series that
+# the full test suite has passed on (see fastcircuit/_compat.py and
+# docs/compatibility.md); raise it only after testing the next minor release.
+dependencies = [
+    "qiskit>=2.6.0,<2.7",
+    "numpy>=2,<3",
+    # The default in-process LLVM backend, wherever llvmlite publishes wheels. Elsewhere
+    # (Intel macOS on Python 3.14+, Linux ppc64le/s390x) fastcircuit uses its C backend,
+    # which needs a C compiler. See docs/platforms.md and fastcircuit/_compat.py.
+    "llvmlite>=0.50,<0.51; (sys_platform == 'darwin' and platform_machine == 'arm64') or (sys_platform == 'linux' and (platform_machine == 'x86_64' or platform_machine == 'aarch64'))",
+    # llvmlite 0.46 dropped Intel macOS; 0.45 is the last release with those wheels (to 3.13).
+    "llvmlite>=0.45,<0.46; sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version < '3.14'",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: C",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Quantum Computing",
+    "Topic :: Software Development :: Compilers",
+]
+
+[project.urls]
+Homepage = "https://github.com/pdd23001/fastcircuit"
+Documentation = "https://github.com/pdd23001/fastcircuit/tree/main/docs"
+Source = "https://github.com/pdd23001/fastcircuit"
+Issues = "https://github.com/pdd23001/fastcircuit/issues"
+Changelog = "https://github.com/pdd23001/fastcircuit/blob/main/CHANGELOG.md"
+
+[project.scripts]
+fastcircuit = "fastcircuit.__main__:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "fastcircuit._version.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+test = [
+    "pytest>=8",
+    "hypothesis>=6.100",
+    "coverage[toml]>=7.5",
+    "packaging>=24",  # tests/unit/test_platforms.py evaluates pip markers
+]
+lint = ["ruff>=0.15", "mypy>=1.15", "actionlint-py>=1.7", "shellcheck-py>=0.10"]
+release = ["build>=1.2", "twine>=6"]
+# Everything for working on fastcircuit (CONTRIBUTING.md): pip install -e . --group dev
+dev = [
+    { include-group = "test" },
+    { include-group = "lint" },
+    "pre-commit>=4",
+    "tox>=4.28",
+]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+# "tests" exposes tests/support; the package itself is imported from its installation.
+pythonpath = ["tests"]
+addopts = ["-ra", "--strict-markers", "--import-mode=importlib"]
+markers = [
+    "unit: fast tests without native compilation",
+    "component: compiles and loads generated extensions against real Qiskit",
+    "integration: blocks + compiler + cache + Qiskit together",
+    "e2e: builds and installs distributions into clean environments",
+    "property: randomized differential tests (seeded)",
+    "slow: excluded from the default pull-request run",
+    "needs_c_backend: uses the C compiler backend (deselect where no C compiler runs)",
+    "needs_llvmlite: uses the LLVM backend (skipped automatically without llvmlite)",
+]
+filterwarnings = ["error::DeprecationWarning:fastcircuit.*"]
+
+[tool.coverage.run]
+branch = true
+source = ["fastcircuit"]
+parallel = true
+# Measure the Python child processes the integration tests start (scripts using
+# blocks, cross-process cache reuse); their code paths run nowhere else.
+patch = ["subprocess"]
+
+[tool.coverage.paths]
+source = ["src/fastcircuit", "*/site-packages/fastcircuit"]
+
+[tool.coverage.report]
+# Baseline (2026-11-15): 93% branch coverage, both backends combined, macOS arm64,
+# Python 3.14. The 3-point margin absorbs platform/Python-version branches; raise it
+# as coverage grows, never lower it to make a change pass (docs/ci.md).
+fail_under = 90
+show_missing = true
+skip_covered = false
+exclude_also = ["if TYPE_CHECKING:", "raise NotImplementedError"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "PL", "S"]
+ignore = [
+    "PLR0911", "PLR0912", "PLR0913", "PLR0915", "PLR2004",  # compiler dispatch code
+    "S603", "S607",  # subprocess calls the configured C compiler by design
+    "RUF012",
+    "PLR0917",  # positional arguments in internal helpers
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["fastcircuit"]
+known-local-folder = ["support"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S108", "PLC0415", "B018", "B007", "E731", "PLW0603"]
+"src/fastcircuit/__main__.py" = ["T201", "PLC0415"]
+"src/fastcircuit/_source.py" = ["PLC0415"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src/fastcircuit"]
+strict = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = ["qiskit.*", "llvmlite.*"]
+ignore_missing_imports = true

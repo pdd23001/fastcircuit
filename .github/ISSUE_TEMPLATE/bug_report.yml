@@ -1,0 +1,45 @@
+name: Bug report
+description: Something fails, crashes, or gives a different result from the Python function
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Security problems should be reported privately instead
+        (see SECURITY.md), not here.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Include the full traceback, if any.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal example
+      description: >-
+        The smallest `with fastcircuit:` block and call that shows the problem. If
+        the compiled result differs from the same code without the block, show both.
+      render: python
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of `python -m fastcircuit doctor`
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: Output of `python -m pip list | grep -iE "fastcircuit|qiskit|numpy|llvmlite"`
+      render: text

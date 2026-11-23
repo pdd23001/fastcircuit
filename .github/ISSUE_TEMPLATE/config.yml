@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/pdd23001/fastcircuit/security/advisories/new
+    about: Please report security problems privately, not as a public issue.
+  - name: Qiskit questions
+    url: https://github.com/Qiskit/qiskit/issues
+    about: Problems with Qiskit itself, not fastcircuit, belong in Qiskit's repository.
