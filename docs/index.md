@@ -10,7 +10,7 @@ hide:
 
 <div class="fc-hero__text" markdown>
 
-# Write Python.<br><span class="fc-hero__sub">Run your Qiskit code<br>at native speed.</span>
+# Write Python. <span class="fc-hero__sub">Run your Qiskit code at native speed.</span>
 
 <p class="fc-lead">Python is easy to write and slow to run. Add one line,
 <code>with fastcircuit:</code>, and your Qiskit code runs as machine code instead.</p>
