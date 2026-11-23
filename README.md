@@ -1,3 +1,7 @@
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/pdd23001/fastcircuit/main/docs/assets/logo.svg" width="88" alt="fastcircuit logo">
+
 # fastcircuit
 
 [![Release](https://img.shields.io/pypi/v/fastcircuit.svg?label=Release)](https://pypi.org/project/fastcircuit/)
@@ -11,6 +15,8 @@
 [**Documentation**](https://pdd23001.github.io/fastcircuit/) |
 [**PyPI**](https://pypi.org/project/fastcircuit/) |
 [**Changelog**](https://github.com/pdd23001/fastcircuit/blob/main/CHANGELOG.md)
+
+</div>
 
 <p align="center">
   <picture>
