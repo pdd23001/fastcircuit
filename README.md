@@ -172,6 +172,3 @@ the [releases page](https://github.com/pdd23001/fastcircuit/releases).
 ## License
 
 [Apache License 2.0](https://github.com/pdd23001/fastcircuit/blob/main/LICENSE.txt).
-
-fastcircuit is an independent project, not affiliated with or endorsed by IBM or
-the Qiskit project right now.
