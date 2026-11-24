@@ -15,16 +15,17 @@ pip installs llvmlite only where llvmlite publishes wheels (markers in
 `FASTCIRCUIT_BACKEND` if set; otherwise LLVM when llvmlite is installed; otherwise C.
 `python -m fastcircuit doctor` prints the choice and the reason.
 
-| Platform | Python | Backend | Needs a C compiler? | CI |
-|---|---|---|---|---|
-| macOS arm64 (Apple Silicon) | 3.11+ | LLVM (llvmlite 0.50) | no | every pull request, weekly |
-| macOS x86-64 (Intel) | 3.11–3.13 | LLVM (llvmlite 0.45, the last release with Intel wheels) | no | weekly |
-| macOS x86-64 (Intel) | 3.14+ | C | yes (`xcode-select --install`) | weekly |
-| Linux x86-64, glibc 2.28+ | 3.11+ | LLVM (llvmlite 0.50) | no | every pull request, weekly |
-| Linux aarch64, glibc 2.28+ | 3.11+ | LLVM (llvmlite 0.50) | no | weekly |
-| Linux ppc64le / s390x | 3.11+ | C | yes | not tested in CI (no hosted runners) |
+| Platform | Python | Backend | Needs a C compiler? |
+|---|---|---|---|
+| macOS arm64 (Apple Silicon) | 3.11+ | LLVM (llvmlite 0.50) | no |
+| macOS x86-64 (Intel) | 3.11–3.13 | LLVM (llvmlite 0.45, the last release with Intel wheels) | no |
+| macOS x86-64 (Intel) | 3.14+ | C | yes (`xcode-select --install`) |
+| Linux x86-64, glibc 2.28+ | 3.11+ | LLVM (llvmlite 0.50) | no |
+| Linux aarch64, glibc 2.28+ | 3.11+ | LLVM (llvmlite 0.50) | no |
+| Linux ppc64le / s390x | 3.11+ | C | yes |
 
-Every platform in CI also runs the full suite on the C backend.
+Every platform above is tested on both backends, except ppc64le and s390x, which
+are not tested.
 
 Not supported:
 - **Python 3.10 and older:** Python 3.10 reached end-of-life in October 2026.
