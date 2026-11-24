@@ -4,8 +4,8 @@
 
 # fastcircuit
 
-[![Release](https://img.shields.io/pypi/v/fastcircuit.svg?label=Release)](https://pypi.org/project/fastcircuit/)
-[![Python](https://img.shields.io/pypi/pyversions/fastcircuit?label=Python&logo=python)](https://pypi.org/project/fastcircuit/)
+[![Release](https://img.shields.io/pypi/v/fastcircuit?label=Release&cacheSeconds=3600)](https://pypi.org/project/fastcircuit/)
+[![Python](https://img.shields.io/pypi/pyversions/fastcircuit?label=Python&logo=python&cacheSeconds=3600)](https://pypi.org/project/fastcircuit/)
 [![Qiskit](https://img.shields.io/badge/Qiskit-2.6-6133BD?logo=Qiskit)](https://github.com/Qiskit/qiskit)
 ![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS-informational)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/pdd23001/fastcircuit/blob/main/LICENSE.txt)
