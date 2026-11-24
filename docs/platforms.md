@@ -28,10 +28,12 @@ Every platform above is tested on both backends, except ppc64le and s390x, which
 are not tested.
 
 Not supported:
-- **Python 3.10 and older:** Python 3.10 reached end-of-life in October 2026.
-- **Alpine/musl and glibc older than 2.28:** Qiskit publishes no wheel for them.
-- **32-bit platforms, PyPy, and free-threaded CPython:** Generated code relies on the
-  GIL and CPython's C API.
+
+| Platform | Reason |
+|---|---|
+| Python 3.10 and older | Python 3.10 reached end-of-life in October 2026. |
+| Alpine/musl and glibc older than 2.28 | Qiskit publishes no wheel for them. |
+| 32-bit platforms, PyPy, and free-threaded CPython | Generated code relies on the GIL and CPython's C API. |
 
 ## Notes per platform
 
