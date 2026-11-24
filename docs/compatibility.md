@@ -9,7 +9,7 @@ against:
 
 | fastcircuit | Qiskit |
 |---|---|
-| 0.2.x | 2.6.x |
+| 0.1.x | 2.6.x |
 
 The dependency is pinned (`qiskit>=2.6.0,<2.7`). As a second line of defence,
 fastcircuit checks the installed Qiskit version before compiling a block and raises
@@ -49,10 +49,10 @@ fastcircuit is **alpha** (`0.x`). Until 1.0:
 - The public API is what `fastcircuit.__all__` exports, plus the attributes
   documented in the [user guide](guide.md). Modules whose names start with `_`
   are internal and can change at any time.
-- A minor release (`0.3`) may change the public API. Every change is listed in
+- A minor release (`0.2`) may change the public API. Every change is listed in
   the [changelog](https://github.com/pdd23001/fastcircuit/blob/main/CHANGELOG.md), and when it is practical, a release first
   deprecates the old behavior with a `DeprecationWarning`.
-- Patch releases (`0.2.1`) only fix bugs.
+- Patch releases (`0.1.1`) only fix bugs.
 - Accepting more syntax is not a breaking change. Rejecting syntax that used to
   compile is, unless that syntax used to give results that differ from Python;
   that is a bug fix.
